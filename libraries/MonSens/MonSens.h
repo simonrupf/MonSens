@@ -30,6 +30,13 @@
 
 #include <Arduino.h>
 
+#ifndef MONSENS_MAX_SENSORS
+#  define MONSENS_MAX_SENSORS 10
+#endif
+#ifndef MONSENS_MAX_MEASUREMENT_WIDTH
+#  define MONSENS_MAX_MEASUREMENT_WIDTH 9
+#endif
+
 /**
  * Generic sensor interface, to be implemented by each MonSens sensor.
  */
@@ -41,19 +48,25 @@ class IMonSens_Sensor {
     virtual void init() = 0;
 
     /**
-     * Check if this sensor supports a particular input value.
+     * Take a sensor reading, if the input is supported.
      */
-    virtual bool supports(const char* input) = 0;
+    virtual bool measure(const char* input) = 0;
 
     /**
-     * Take a sensor reading, to be returned by the communicator.
+     * Returns the last sensor reading.
      */
-    virtual char* measure(const char* input) = 0;
+    float getReading();
 
     /**
      * If no sensor supports the input value, usage instructions are collected.
      */
     virtual char* usage() = 0;
+
+  protected:
+    /**
+     * Last measured sensor reading.
+     */
+    float reading = 0.0;
 };
 
 /**
@@ -80,12 +93,12 @@ class IMonSens_Communicator {
     /**
      * List of sensors to handle.
      */
-    IMonSens_Sensor* sensors[10];
+    IMonSens_Sensor* sensors[MONSENS_MAX_SENSORS];
 
     /**
      * Number of sensors to handle.
      */
-    int sensorCount = 0;
+    uint8_t sensorCount = 0;
 
     /**
      * Read input from the MCUs interface.

@@ -5,8 +5,6 @@
  * port 30303 to read sensor data.
  */
 
-#include <MonSens_NodeMCU.h>
-
 // the following constants need to be changed according to your WiFi settings
 const char* ssid = "your WiFi's SSID";
 const char* password = "your own super secret WiFi password";
@@ -14,7 +12,17 @@ const char* password = "your own super secret WiFi password";
 // this is the port that your monitoring system may read the sensors at
 const int port = 30303;
 
-/* uncomment the below section when using the BME280 sensor
+// (optional) conserve memory by reducing the reserved space for the following
+// variables
+// maximum sensors supported, defaults to 10 (this example only uses 2)
+#define MONSENS_MAX_SENSORS 10
+// maximum length of measurement strings, defaults to 9 (5 digits, 1 decimal
+// point, 2 digits after the point and 1 string termination character)
+#define MONSENS_MAX_MEASUREMENT_WIDTH 9
+
+#include <MonSens_NodeMCU.h>
+
+/* uncomment and adjust the below section when using the BME280 sensor
 #include <MonSens_BME280.h>
 
 // hardware SPI pins on NodeMCU v1, v2 & v3

@@ -41,12 +41,22 @@
 #include <Adafruit_BME280.h>
 
 // hardware SPI pins on NodeMCU v1, v2 & v3
-//#define BME_SCK 14
-//#define BME_MISO 12
-//#define BME_MOSI 13
-//#define BME_CS 15
+#ifndef BME_SCK
+#  define BME_SCK 14
+#endif
+#ifndef BME_MISO
+#  define BME_MISO 12
+#endif
+#ifndef BME_MOSI
+#  define BME_MOSI 13
+#endif
+#ifndef BME_CS
+#  define BME_CS 15
+#endif
 
-#define SEALEVELPRESSURE_HPA (1013.25)
+#ifndef SEALEVELPRESSURE_HPA
+#  define SEALEVELPRESSURE_HPA (1013.25)
+#endif
 
 // use one of the below lines in your sketchbook to connect to the sensor
 //Adafruit_BME280 bme; // I2C
@@ -69,14 +79,9 @@ class MonSens_BME280: public IMonSens_Sensor {
     void init();
 
     /**
-     * Check if this sensor supports a particular input value.
-     */
-    bool supports(const char* input);
-
-    /**
      * Take a sensor reading, to be returned by the communicator.
      */
-    char* measure(const char* input);
+    bool measure(const char* input);
 
     /**
      * If no sensor supports the input value, usage instructions are collected.
@@ -88,11 +93,6 @@ class MonSens_BME280: public IMonSens_Sensor {
      * sensor interface
      */
     Adafruit_BME280 sensor;
-
-    /**
-     * measured value as a formatted string
-     */
-    char measurement[9];
 };
 
 #endif

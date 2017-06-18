@@ -53,55 +53,33 @@ void MonSens_BME280::init() {
 }
 
 /**
- * Check if this sensor supports a particular input value.
- */
-bool MonSens_BME280::supports(const char* input) {
-  if (
-    strstr(input, "C")   != NULL ||
-    strstr(input, "K")   != NULL ||
-    strstr(input, "hPa") != NULL ||
-    strstr(input, "m")   != NULL ||
-    strstr(input, "RH")  != NULL
-  ) {
-    return true;
-  }
-  return false;
-}
-
-/**
  * Take a sensor reading, to be returned by the communicator.
  */
-char* MonSens_BME280::measure(const char* input) {
-  float readout;
-
+bool MonSens_BME280::measure(const char* input) {
   if (strstr(input, "C") != NULL) {
     // read twice to avoid cached value
     sensor.readTemperature();
-    readout = sensor.readTemperature();
-  }
-  else if (strstr(input, "K") != NULL) {
+    reading = sensor.readTemperature();
+  } else if (strstr(input, "K") != NULL) {
     // read twice to avoid cached value
     sensor.readTemperature();
-    readout = sensor.readTemperature() + 273.15F;
-  }
-  else if (strstr(input, "hPa") != NULL) {
+    reading = sensor.readTemperature() + 273.15F;
+  } else if (strstr(input, "hPa") != NULL) {
     // read twice to avoid cached value
     sensor.readPressure();
-    readout = sensor.readPressure() / 100.0F;
-  }
-  else if (strstr(input, "m") != NULL) {
+    reading = sensor.readPressure() / 100.0F;
+  } else if (strstr(input, "m") != NULL) {
     // read twice to avoid cached value
     sensor.readAltitude(SEALEVELPRESSURE_HPA);
-    readout = sensor.readAltitude(SEALEVELPRESSURE_HPA);
-  }
-  else if (strstr(input, "RH") != NULL) {
+    reading = sensor.readAltitude(SEALEVELPRESSURE_HPA);
+  } else if (strstr(input, "RH") != NULL) {
     // read twice to avoid cached value
     sensor.readHumidity();
-    readout = sensor.readHumidity();
+    reading = sensor.readHumidity();
+  } else {
+    return false;
   }
-
-  dtostrf(readout, 0, 2, measurement);
-  return measurement;
+  return true;
 }
 
 /**

@@ -28,6 +28,13 @@
 #include <MonSens.h>
 
 /**
+ * Returns the last sensor reading.
+ */
+float IMonSens_Sensor::getReading() {
+  return reading;
+}
+
+/**
  * Register a sensor in the communicator.
  */
 void IMonSens_Communicator::addSensor(IMonSens_Sensor &sensor) {
@@ -43,9 +50,11 @@ void IMonSens_Communicator::communicate() {
 
   // check each sensor for support of the input,
   // returning the measurement if it does
-  for (int i = 0; i < sensorCount; i++) {
-    if (sensors[i]->supports(input)) {
-      writeln(sensors[i]->measure(input));
+  for (int i = 0; i < sensorCount; ++i) {
+    if (sensors[i]->measure(input)) {
+      char measurement[MONSENS_MAX_MEASUREMENT_WIDTH];
+      dtostrf(sensors[i]->getReading(), 0, 2, measurement);
+      writeln(measurement);
       return;
     }
   }
@@ -54,8 +63,8 @@ void IMonSens_Communicator::communicate() {
   if (strlen(input) > 0) {
     // when no sensor supports the input, print usage instructions instead
     writeln("Usage:");
-    for (int i = 0; i < sensorCount; i++) {
-      writeln(sensors[i]->usage());
+    for (int j = 0; j < sensorCount; ++j) {
+      writeln(sensors[j]->usage());
     }
   }
 }

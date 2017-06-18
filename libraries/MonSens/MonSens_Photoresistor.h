@@ -48,14 +48,9 @@ class MonSens_Photoresistor: public IMonSens_Sensor {
     void init();
 
     /**
-     * Check if this sensor supports a particular input value.
-     */
-    bool supports(const char* input);
-
-    /**
      * Take a sensor reading, to be returned by the communicator.
      */
-    char* measure(const char* input);
+    bool measure(const char* input);
 
     /**
      * If no sensor supports the input value, usage instructions are collected.
@@ -67,11 +62,6 @@ class MonSens_Photoresistor: public IMonSens_Sensor {
      * Analog pin the sensor is connected to
      */
     uint8_t sensorPin;
-
-    /**
-     * measured value as a formatted string
-     */
-    char measurement[5];
 };
 
 #endif

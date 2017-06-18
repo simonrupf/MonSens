@@ -43,25 +43,14 @@ void MonSens_Photoresistor::init() {
 }
 
 /**
- * Check if this sensor supports a particular input value.
+ * Take a sensor reading, to be returned by the communicator.
  */
-bool MonSens_Photoresistor::supports(const char* input) {
+bool MonSens_Photoresistor::measure(const char* input) {
   if (strstr(input, "R") != NULL) {
+    reading = (float) analogRead(sensorPin);
     return true;
   }
   return false;
-}
-
-/**
- * Take a sensor reading, to be returned by the communicator.
- */
-char* MonSens_Photoresistor::measure(const char* input) {
-  int readout;
-  if (strstr(input, "R") != NULL) {
-    readout = analogRead(sensorPin);
-  }
-  sprintf(measurement, "%d", readout);
-  return measurement;
 }
 
 /**
