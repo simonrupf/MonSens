@@ -33,6 +33,11 @@
 #include <MonSens.h>
 #include <ESP8266WiFi.h>
 
+// amount of ms to wait until client send something, maximum 65535
+#ifndef MONSENS_NODEMCU_TIMEOUT
+#  define MONSENS_NODEMCU_TIMEOUT 5000
+#endif
+
 /**
  * MonSens implementation for the wireless NodeMCU.
  */

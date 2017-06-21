@@ -93,12 +93,17 @@ const char* MonSens_NodeMCU::readln() {
     return "";
   }
  
-  // Wait until the client sends some data
+  // Wait until the client sends some data, but not more then MONSENS_NODEMCU_TIMEOUT ms
   Serial.println("new client");
-  while(!client.available()){
+  uint16_t i = 0;
+  while (!client.available() && i <= MONSENS_NODEMCU_TIMEOUT) {
     delay(1);
+    ++i;
   }
- 
+  if (i > MONSENS_NODEMCU_TIMEOUT) {
+    return "";
+  }
+
   // Read the first line of the request
   char request[4];
   client.readStringUntil('\r').toCharArray(request, 4);

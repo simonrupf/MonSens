@@ -50,7 +50,7 @@ void IMonSens_Communicator::communicate() {
 
   // check each sensor for support of the input,
   // returning the measurement if it does
-  for (int i = 0; i < sensorCount; ++i) {
+  for (uint8_t i = 0; i < sensorCount; ++i) {
     if (sensors[i]->measure(input)) {
       char measurement[MONSENS_MAX_MEASUREMENT_WIDTH];
       dtostrf(sensors[i]->getReading(), 0, 2, measurement);
@@ -63,7 +63,7 @@ void IMonSens_Communicator::communicate() {
   if (strlen(input) > 0) {
     // when no sensor supports the input, print usage instructions instead
     writeln("Usage:");
-    for (int j = 0; j < sensorCount; ++j) {
+    for (uint8_t j = 0; j < sensorCount; ++j) {
       writeln(sensors[j]->usage());
     }
   }
