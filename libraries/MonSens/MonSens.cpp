@@ -43,10 +43,13 @@ void IMonSens_Communicator::addSensor(IMonSens_Sensor &sensor) {
 }
 
 /**
- * Read inputs and respond to them, to be called in the MCUs loop routine.
+ * Get the sensor measurement for a given input
  */
-void IMonSens_Communicator::communicate() {
-  const char* input = readln();
+void IMonSens_Communicator::askSensors(const char* input) {
+  // ignore empty input
+  if (strlen(input) == 0) {
+    return;
+  }
 
   // check each sensor for support of the input,
   // returning the measurement if it does
@@ -54,18 +57,15 @@ void IMonSens_Communicator::communicate() {
     if (sensors[i]->measure(input)) {
       char measurement[MONSENS_MAX_MEASUREMENT_WIDTH];
       dtostrf(sensors[i]->getReading(), 0, 2, measurement);
-      writeln(measurement);
+      println(measurement);
       return;
     }
   }
 
-  // ignore empty input, otherwise print usage
-  if (strlen(input) > 0) {
-    // when no sensor supports the input, print usage instructions instead
-    writeln("Usage:");
-    for (uint8_t j = 0; j < sensorCount; ++j) {
-      writeln(sensors[j]->usage());
-    }
+  // when no sensor supports the input, print usage instructions instead
+  println("Usage:");
+  for (uint8_t i = 0; i < sensorCount; ++i) {
+    println(sensors[i]->usage());
   }
 }
 

@@ -87,7 +87,7 @@ class IMonSens_Communicator {
     /**
      * Read inputs and respond to them, to be called in the MCUs loop routine.
      */
-    void communicate();
+    virtual void communicate() = 0;
 
   protected:
     /**
@@ -101,15 +101,14 @@ class IMonSens_Communicator {
     uint8_t sensorCount = 0;
 
     /**
-     * Read input from the MCUs interface.
+     * Get the sensor measurement for a given input and write it to output
      */
-    virtual const char* readln() = 0;
+    void askSensors(const char* input);
 
     /**
      * Write output to the MCUs interface, inserting a line break at the end.
      */
-    virtual void writeln(char* output) = 0;
-
+    virtual void println(const char* output);
 };
 
 #endif

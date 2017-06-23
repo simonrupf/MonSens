@@ -61,12 +61,17 @@ class MonSens_NodeMCU: public IMonSens_Communicator {
     /**
      * Set the port the server should listen on.
      */
-    void setPort(int port);
+    void setPort(const uint16_t port);
 
     /**
      * Initialize the communicator, to be called in the MCUs setup routine.
      */
     void init();
+
+    /**
+     * Read inputs and respond to them, to be called in the MCUs loop routine.
+     */
+    void communicate();
 
   protected:
     /**
@@ -82,7 +87,7 @@ class MonSens_NodeMCU: public IMonSens_Communicator {
     /**
      * TCP port the server listens at.
      */
-    int tcpPort;
+    uint16_t tcpPort;
 
     /**
      * Client connecting to the server.
@@ -95,14 +100,9 @@ class MonSens_NodeMCU: public IMonSens_Communicator {
     WiFiServer* server;
 
     /**
-     * Read input from the MCUs interface.
-     */
-    const char* readln();
-
-    /**
      * Write output to the MCUs interface, inserting a line break at the end.
      */
-    void writeln(char* output);
+    void println(const char* output);
 };
 
 #endif

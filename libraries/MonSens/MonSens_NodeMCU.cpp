@@ -46,7 +46,7 @@ void MonSens_NodeMCU::setPassword(const char* password) {
 /**
  * Inject the port the server should listen on.
  */
-void MonSens_NodeMCU::setPort(int port) {
+void MonSens_NodeMCU::setPort(const uint16_t port) {
   tcpPort = port;
 }
 
@@ -82,41 +82,45 @@ void MonSens_NodeMCU::init() {
 }
 
 /**
- * Read input from the MCUs interface.
+ * Read inputs and respond to them, to be called in the MCUs loop routine.
  */
-const char* MonSens_NodeMCU::readln() {
+void MonSens_NodeMCU::communicate() {
   // Check if a client has connected
   client = server->available();
   if (!client) {
-    // wait a bit for a client to connect
+    // wait a bit for a client to connect or send data
     delay(1);
-    return "";
+    return;
   }
- 
-  // Wait until the client sends some data, but not more then MONSENS_NODEMCU_TIMEOUT ms
   Serial.println("new client");
-  uint16_t i = 0;
-  while (!client.available() && i <= MONSENS_NODEMCU_TIMEOUT) {
+
+  // Wait until the client sends some data, but not more then MONSENS_NODEMCU_TIMEOUT ms
+  uint16_t clientTimeout = 0;
+  while (!client.available() && clientTimeout <= MONSENS_NODEMCU_TIMEOUT) {
+    ++clientTimeout;
     delay(1);
-    ++i;
   }
-  if (i > MONSENS_NODEMCU_TIMEOUT) {
-    return "";
+  if (clientTimeout > MONSENS_NODEMCU_TIMEOUT) {
+    Serial.println("client timeout");
+    return;
   }
 
   // Read the first line of the request
   char request[4];
   client.readStringUntil('\r').toCharArray(request, 4);
-  Serial.println(request);
   client.flush();
-  return request;
+  Serial.print(request);
+
+  // ask sensors for output and return it
+  askSensors(request);
 }
+
 
 /**
  * Write output to the MCUs interface, inserting a line break at the end.
  */
-void MonSens_NodeMCU::writeln(char* output) {
+void MonSens_NodeMCU::println(const char* output) {
   Serial.println(output);
   client.println(output);
-};
+}
 
