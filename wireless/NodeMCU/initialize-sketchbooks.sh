@@ -29,7 +29,7 @@ then
 fi
 
 # Adafruit libraries
-for LIBRARY in Adafruit_BME280_Library Adafruit_Sensor
+for LIBRARY in Adafruit_BME280_Library Adafruit_BMP280_Library Adafruit_Sensor
 do
     if [ -w "$LIBRARY_PATH/$LIBRARY" ]
     then
