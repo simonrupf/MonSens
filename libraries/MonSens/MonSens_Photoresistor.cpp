@@ -56,7 +56,7 @@ bool MonSens_Photoresistor::measure(const char* input) {
 /**
  * If no sensor supports the input value, usage instructions are collected.
  */
-char* MonSens_Photoresistor::usage() {
-  return "R   - resistance relative to light level";
+const __FlashStringHelper* MonSens_Photoresistor::usage() {
+  return F("R   - resistance relative to light level");
 }
 

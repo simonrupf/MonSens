@@ -55,7 +55,7 @@ class MonSens_Photoresistor: public IMonSens_Sensor {
     /**
      * If no sensor supports the input value, usage instructions are collected.
      */
-    char* usage();
+    const __FlashStringHelper* usage();
 
   private:
     /**

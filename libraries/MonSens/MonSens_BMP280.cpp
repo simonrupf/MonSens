@@ -81,7 +81,7 @@ bool MonSens_BMP280::measure(const char* input) {
 /**
  * If no sensor supports the input value, usage instructions are collected.
  */
-char* MonSens_BMP280::usage() {
-  return "C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\nhPa - barometric pressure in hekto Pascal\r\nm   - altitude in meters above sealevel";
+const __FlashStringHelper* MonSens_BMP280::usage() {
+  return F("C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\nhPa - barometric pressure in hekto Pascal\r\nm   - altitude in meters above sealevel");
 }
 

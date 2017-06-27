@@ -60,7 +60,7 @@ class IMonSens_Sensor {
     /**
      * If no sensor supports the input value, usage instructions are collected.
      */
-    virtual char* usage() = 0;
+    virtual const __FlashStringHelper* usage() = 0;
 
   protected:
     /**
@@ -109,6 +109,7 @@ class IMonSens_Communicator {
      * Write output to the MCUs interface, inserting a line break at the end.
      */
     virtual void println(const char* output);
+    virtual void println(const __FlashStringHelper* output);
 };
 
 #endif

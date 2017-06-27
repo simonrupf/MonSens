@@ -123,4 +123,8 @@ void MonSens_ESP8266::println(const char* output) {
   Serial.println(output);
   client.println(output);
 }
+void MonSens_ESP8266::println(const __FlashStringHelper* output) {
+  Serial.println(output);
+  client.println(output);
+}
 
