@@ -1,5 +1,5 @@
 /**
- * MonSens NodeMCU example sketchbook
+ * MonSens ESP8266 example sketchbook
  *
  * This sketchbook shows you how to use multiple sensors and expose them via TCP
  * port 30303 to read sensor data.
@@ -20,7 +20,7 @@ const int port = 30303;
 // point, 2 digits after the point and 1 string termination character)
 #define MONSENS_MAX_MEASUREMENT_WIDTH 9
 
-#include <MonSens_NodeMCU.h>
+#include <MonSens_ESP8266.h>
 
 /* uncomment and adjust the below section when using the BME280 sensor
 #include <MonSens_BME280.h>
@@ -45,10 +45,10 @@ MonSens_BME280 bme280;
 MonSens_Photoresistor photo;
 */
 
-MonSens_NodeMCU mcu;
+MonSens_ESP8266 mcu;
 
 /**
- * initialize NodeMCU and sensors
+ * initialize ESP8266 and sensors
  */
 void setup() {
   Serial.begin(115200);

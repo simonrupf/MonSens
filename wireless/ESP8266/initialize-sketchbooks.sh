@@ -45,7 +45,7 @@ done
 cp -r "$SELF_PATH/../../libraries/MonSens" "$LIBRARY_PATH/"
 
 # MonSens sketches
-for SKETCH in monsens-nodemcu-example
+for SKETCH in monsens-esp8266-example
 do
     mkdir -p "$SKETCHBOOK_PATH/$SKETCH"
     cp "$SELF_PATH/$SKETCH.ino" "$SKETCHBOOK_PATH/$SKETCH/$SKETCH.ino"

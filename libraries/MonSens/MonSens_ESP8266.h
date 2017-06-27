@@ -20,33 +20,33 @@
 /**
  * @file
  * @author Simon Rupf <simon@rupf.net>
- * @brief MonSens implementation for the wireless NodeMCU microcontroller board.
+ * @brief MonSens implementation for the wireless ESP8266 microcontroller board.
  *
- * The NodeMCU offers a large amount of dynamic and persistent memory and plenty
+ * The ESP8266 offers a large amount of dynamic and persistent memory and plenty
  * of pins to connect multiple sensors on a single unit. There are multiple
  * revisions of it, but all of them should be usable for MonSens applications.
  */
 
-#ifndef MONSENS_NODEMCU_H
-#define MONSENS_NODEMCU_H
+#ifndef MONSENS_ESP8266_H
+#define MONSENS_ESP8266_H
 
 #include <MonSens.h>
 #include <ESP8266WiFi.h>
 
 // amount of ms to wait until client send something, maximum 65535
-#ifndef MONSENS_NODEMCU_TIMEOUT
-#  define MONSENS_NODEMCU_TIMEOUT 5000
+#ifndef MONSENS_ESP8266_TIMEOUT
+#  define MONSENS_ESP8266_TIMEOUT 5000
 #endif
 
 /**
- * MonSens implementation for the wireless NodeMCU.
+ * MonSens implementation for the wireless ESP8266.
  */
-class MonSens_NodeMCU: public IMonSens_Communicator {
+class MonSens_ESP8266: public IMonSens_Communicator {
   public:
     /**
      * Constructor
      */
-    MonSens_NodeMCU() {}
+    MonSens_ESP8266() {}
 
     /**
      * Set the SSID of the WiFi network.

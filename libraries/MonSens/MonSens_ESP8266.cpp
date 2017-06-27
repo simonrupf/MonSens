@@ -20,40 +20,40 @@
 /**
  * @file
  * @author Simon Rupf <simon@rupf.net>
- * @brief MonSens implementation for the wireless NodeMCU microcontroller board.
+ * @brief MonSens implementation for the wireless ESP8266 microcontroller board.
  *
- * The NodeMCU offers a large amount of dynamic and persistent memory and plenty
+ * The ESP8266 offers a large amount of dynamic and persistent memory and plenty
  * of pins to connect multiple sensors on a single unit. There are multiple
  * revisions of it, but all of them should be usable for MonSens applications.
  */
 
-#include <MonSens_NodeMCU.h>
+#include <MonSens_ESP8266.h>
 
 /**
  * Set the SSID of the WiFi network.
  */
-void MonSens_NodeMCU::setSsid(const char* ssid) {
+void MonSens_ESP8266::setSsid(const char* ssid) {
   wifiSsid = ssid;
 }
 
 /**
  * Set the password of the WiFi network.
  */
-void MonSens_NodeMCU::setPassword(const char* password) {
+void MonSens_ESP8266::setPassword(const char* password) {
   wifiPassword = password;
 }
 
 /**
  * Inject the port the server should listen on.
  */
-void MonSens_NodeMCU::setPort(const uint16_t port) {
+void MonSens_ESP8266::setPort(const uint16_t port) {
   tcpPort = port;
 }
 
 /**
  * Initialize the communicator, to be called in the MCUs setup routine.
  */
-void MonSens_NodeMCU::init() {
+void MonSens_ESP8266::init() {
   // Connect to WiFi network
   Serial.println("");
   Serial.println("");
@@ -84,7 +84,7 @@ void MonSens_NodeMCU::init() {
 /**
  * Read inputs and respond to them, to be called in the MCUs loop routine.
  */
-void MonSens_NodeMCU::communicate() {
+void MonSens_ESP8266::communicate() {
   // Check if a client has connected
   client = server->available();
   if (!client) {
@@ -94,13 +94,13 @@ void MonSens_NodeMCU::communicate() {
   }
   Serial.println("new client");
 
-  // Wait until the client sends some data, but not more then MONSENS_NODEMCU_TIMEOUT ms
+  // Wait until the client sends some data, but not more then MONSENS_ESP8266_TIMEOUT ms
   uint16_t clientTimeout = 0;
-  while (!client.available() && clientTimeout <= MONSENS_NODEMCU_TIMEOUT) {
+  while (!client.available() && clientTimeout <= MONSENS_ESP8266_TIMEOUT) {
     ++clientTimeout;
     delay(1);
   }
-  if (clientTimeout > MONSENS_NODEMCU_TIMEOUT) {
+  if (clientTimeout > MONSENS_ESP8266_TIMEOUT) {
     Serial.println("client timeout");
     return;
   }
@@ -119,7 +119,7 @@ void MonSens_NodeMCU::communicate() {
 /**
  * Write output to the MCUs interface, inserting a line break at the end.
  */
-void MonSens_NodeMCU::println(const char* output) {
+void MonSens_ESP8266::println(const char* output) {
   Serial.println(output);
   client.println(output);
 }

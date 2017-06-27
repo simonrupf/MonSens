@@ -1,8 +1,16 @@
-NodeMCU
-=========
+ESP8266
+=======
 
-The NodeMCU uses an Espressif ESP8266 as MCU and allows us to directly offer a
-service to read sensor measurements over a wireless network (WiFi).
+Using the Espressif ESP8266 as an MCU allows us to directly offer a service to
+read sensor measurements over a wireless network (WiFi).
+
+These MCUs come in many flavours. Easiest to use are the so called Development
+boards which come with an integrated USB to serial converter. The documentation
+below is focused on the usage of the NodeMCU, as it is one of the most widely
+available and cheaper solutions, but when choosing the appropriate board
+settings, these instructions will work just as well with the ESP-WROOM-02 or the
+Wemos D1 family.
+
 
 Preparations
 ------------
