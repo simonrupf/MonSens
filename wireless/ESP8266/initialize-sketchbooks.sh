@@ -44,7 +44,7 @@ done
 # MonSens libraries, excluding DigiSpark (those only works when the Arduino IDE
 # is set to that board)
 cp -r "$SELF_PATH/../../libraries/MonSens" "$LIBRARY_PATH/"
-rm "$LIBRARY_PATH/DigiSpark.*"
+rm "$LIBRARY_PATH/MonSens/MonSens_DigiSpark"*
 
 # MonSens sketches
 for SKETCH in monsens-esp8266-example
