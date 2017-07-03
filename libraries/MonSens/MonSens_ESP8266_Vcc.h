@@ -31,10 +31,6 @@
 
 #include <MonSens.h>
 
-/* as of Arduino IDE 1.6.8, the below sequence doesn't work:
-ADC_MODE(ADC_VCC);
-*/
-
 /**
  * MonSens implementation for a Photoresistor
  */
