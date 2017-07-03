@@ -32,12 +32,12 @@ HIGH during boot, the sensor connected to it interferes with the startup of the
 ESP8266. This can be avoided by using a resistor of 2 - 10 kΩ between ground
 and `D8` (the illustration below shows a 3.3 kΩ resistor).
 
-![Adafruit BME280 breakout board connected to a NodeMCU using SPI](bme280 nodemcu.png)
+![Adafruit BME280 breakout board connected to a NodeMCU using SPI](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/bme280/bme280%20nodemcu.png)
 
 Here below is an example for connecting the Adafruit BME280 breakout board to
 a DigiSpark using I2C pins. Although it seems possible to get software SPI
 working on the DigiSpark, (software) I2C is better documented and therefore
 easier to use.
 
-![Adafruit BME280 breakout board connected to a DigiSpark using I2C](bme280 digispark.png)
+![Adafruit BME280 breakout board connected to a DigiSpark using I2C](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/bme280/bme280%20digispark.png)
 
