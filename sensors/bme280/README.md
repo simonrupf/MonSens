@@ -6,7 +6,7 @@ sensing in a single chip. Adafruit offers a breakout board to easily connect the
 BME280 to an MCU: <https://www.adafruit.com/product/2652>
 
 There are other similar breakout boards that may be used with the Adafruit
-libraries, as long as they offer either I2C or SPI interfaces. Using hardware
+libraries, as long as they offer either I²C or SPI interfaces. Using hardware
 SPI is preferred, if your MCU supports it.
 
 Use cases
@@ -19,9 +19,9 @@ Limitations
 -----------
 
 The sensor caches the measurements, which is why they are requested twice to get
-an updated number. If using I2C reading all different values is quite slow, so
+an updated number. If using I²C reading all different values is quite slow, so
 (hardware) SPI is the preferred interface on ESP8266 MCUs. The Digispark is only
-supporting I2C, so do not expect to read out the values too frequently.
+supporting I²C, so do not expect to read out the values too frequently.
 
 Wiring
 ------
@@ -35,9 +35,9 @@ and `D8` (the illustration below shows a 3.3 kΩ resistor).
 ![Adafruit BME280 breakout board connected to a NodeMCU using SPI](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/bme280/bme280%20nodemcu.png)
 
 Here below is an example for connecting the Adafruit BME280 breakout board to
-a DigiSpark using I2C pins. Although it seems possible to get software SPI
-working on the DigiSpark, (software) I2C is better documented and therefore
+a DigiSpark using I²C pins. Although it seems possible to get software SPI
+working on the DigiSpark, (software) I²C is better documented and therefore
 easier to use.
 
-![Adafruit BME280 breakout board connected to a DigiSpark using I2C](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/bme280/bme280%20digispark.png)
+![Adafruit BME280 breakout board connected to a DigiSpark using I²C](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/bme280/bme280%20digispark.png)
 
