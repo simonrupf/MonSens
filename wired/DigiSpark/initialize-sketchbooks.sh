@@ -7,6 +7,8 @@ then
 fi
 
 SKETCHBOOK_PATH="$(echo "$1" | sed 's:/*$::')"
+LIBRARY_PATH="$SKETCHBOOK_PATH/libraries"
+SELF_PATH="$(cd "$(dirname "$0")"; pwd)"
 
 if [ ! -w "$SKETCHBOOK_PATH" ]
 then
@@ -14,6 +16,37 @@ then
     exit 2
 fi
 
+if [ ! -w "$LIBRARY_PATH" ]
+then
+    echo "error: path '$LIBRARY_PATH' is not writable"
+    exit 2
+fi
+
+if ! command -v git >/dev/null 2>&1
+then
+    echo "error: git not installed, required to download and update Adafruit libraries"
+    exit 3
+fi
+
+# Adafruit libraries
+for LIBRARY in Adafruit_BME280_Library Adafruit_BMP280_Library Adafruit_Sensor
+do
+    if [ -w "$LIBRARY_PATH/$LIBRARY" ]
+    then
+        cd "$LIBRARY_PATH/$LIBRARY"
+        git pull >/dev/null
+        cd $SELF_PATH
+    else
+        git clone https://github.com/adafruit/$LIBRARY.git "$LIBRARY_PATH/$LIBRARY" >/dev/null
+    fi
+done
+
+# MonSens libraries, excluding ESP8266 (those only work when the Arduino IDE
+# is set to that board)
+cp -r "$SELF_PATH/../../libraries/MonSens" "$LIBRARY_PATH/"
+rm "$LIBRARY_PATH/MonSens/MonSens_ESP8266"*
+
+# MonSens sketches
 for SKETCH in monsens-temperature-internal
 do
     mkdir -p "$SKETCHBOOK_PATH/$SKETCH"

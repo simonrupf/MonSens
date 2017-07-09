@@ -41,7 +41,7 @@ do
     fi
 done
 
-# MonSens libraries, excluding DigiSpark (those only works when the Arduino IDE
+# MonSens libraries, excluding DigiSpark (those only work when the Arduino IDE
 # is set to that board)
 cp -r "$SELF_PATH/../../libraries/MonSens" "$LIBRARY_PATH/"
 rm "$LIBRARY_PATH/MonSens/MonSens_DigiSpark"*
