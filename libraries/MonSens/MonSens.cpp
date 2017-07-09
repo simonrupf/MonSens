@@ -62,10 +62,12 @@ void IMonSens_Communicator::askSensors(const char* input) {
     }
   }
 
+  #ifndef __DigiCDC_h__
   // when no sensor supports the input, print usage instructions instead
   println("Usage:");
   for (uint8_t i = 0; i < sensorCount; ++i) {
     println(sensors[i]->usage());
   }
+  #endif
 }
 

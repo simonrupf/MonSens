@@ -61,7 +61,4 @@ void MonSens_DigiSpark::communicate() {
 void MonSens_DigiSpark::println(const char* output) {
   SerialUSB.println(output);
 }
-void MonSens_DigiSpark::println(const __FlashStringHelper* output) {
-  SerialUSB.println(output);
-}
 

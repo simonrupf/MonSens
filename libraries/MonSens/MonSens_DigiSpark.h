@@ -29,6 +29,8 @@
 #ifndef MONSENS_DIGISPARK_H
 #define MONSENS_DIGISPARK_H
 
+#define MONSENS_NO_USAGE
+
 #include <MonSens.h>
 #include <DigiCDC.h>
 
@@ -57,7 +59,6 @@ class MonSens_DigiSpark: public IMonSens_Communicator {
      * Write output to the MCUs interface, inserting a line break at the end.
      */
     void println(const char* output);
-    void println(const __FlashStringHelper* output);
 };
 
 #endif

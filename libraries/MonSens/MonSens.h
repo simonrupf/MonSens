@@ -57,10 +57,12 @@ class IMonSens_Sensor {
      */
     float getReading();
 
+  #ifndef MONSENS_NO_USAGE && __DigiCDC_h__
     /**
      * If no sensor supports the input value, usage instructions are collected.
      */
     virtual const __FlashStringHelper* usage() = 0;
+  #endif
 
   protected:
     /**
@@ -109,7 +111,9 @@ class IMonSens_Communicator {
      * Write output to the MCUs interface, inserting a line break at the end.
      */
     virtual void println(const char* output);
+  #ifndef MONSENS_NO_USAGE && __DigiCDC_h__
     virtual void println(const __FlashStringHelper* output);
+  #endif
 };
 
 #endif

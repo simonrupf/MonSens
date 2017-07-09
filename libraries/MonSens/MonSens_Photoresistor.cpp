@@ -53,10 +53,12 @@ bool MonSens_Photoresistor::measure(const char* input) {
   return false;
 }
 
+#ifndef __DigiCDC_h__
 /**
  * If no sensor supports the input value, usage instructions are collected.
  */
 const __FlashStringHelper* MonSens_Photoresistor::usage() {
   return F("R   - resistance relative to light level");
 }
+#endif
 
