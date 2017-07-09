@@ -56,9 +56,9 @@ class MonSens_DigiSpark: public IMonSens_Communicator {
 
   protected:
     /**
-     * Write output to the MCUs interface, inserting a line break at the end.
+     * Write output to the MCUs interface.
      */
-    void println(const char* output);
+    void write(const char output);
 };
 
 #endif

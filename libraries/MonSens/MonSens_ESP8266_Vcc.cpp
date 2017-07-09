@@ -48,7 +48,7 @@ bool MonSens_ESP8266_Vcc::measure(const char* input) {
 /**
  * If no sensor supports the input value, usage instructions are collected.
  */
-const __FlashStringHelper* MonSens_ESP8266_Vcc::usage() {
-  return F("V   - voltage at the ESP8266 chip");
+const char* MonSens_ESP8266_Vcc::getUsage() {
+  return MonSens_ESP8266_Vcc_Usage;
 }
 

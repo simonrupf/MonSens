@@ -32,8 +32,12 @@
 
 #include <MonSens.h>
 
+const char MonSens_Photoresistor_Usage[] PROGMEM = {
+  "R   - resistance relative to light level"
+};
+
 /**
- * MonSens implementation for a Photoresistor
+ * MonSens implementation of a Photoresistor.
  */
 class MonSens_Photoresistor: public IMonSens_Sensor {
   public:
@@ -52,12 +56,10 @@ class MonSens_Photoresistor: public IMonSens_Sensor {
      */
     bool measure(const char* input);
 
-  #ifndef __DigiCDC_h__
     /**
      * If no sensor supports the input value, usage instructions are collected.
      */
-    const __FlashStringHelper* usage();
-  #endif
+    const char* getUsage();
 
   private:
     /**

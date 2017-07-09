@@ -38,7 +38,7 @@
 #include <MonSens.h>
 #include <ESP8266WiFi.h>
 
-// amount of ms to wait until client send something, maximum 65535
+// amount of ms to wait until client sends something, maximum 65535
 #ifndef MONSENS_ESP8266_TIMEOUT
 #  define MONSENS_ESP8266_TIMEOUT 5000
 #endif
@@ -105,10 +105,9 @@ class MonSens_ESP8266: public IMonSens_Communicator {
     WiFiServer* server;
 
     /**
-     * Write output to the MCUs interface, inserting a line break at the end.
+     * Write output to the MCUs interface.
      */
-    void println(const char* output);
-    void println(const __FlashStringHelper* output);
+    void write(const char output);
 };
 
 #endif

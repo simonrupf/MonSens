@@ -117,14 +117,10 @@ void MonSens_ESP8266::communicate() {
 
 
 /**
- * Write output to the MCUs interface, inserting a line break at the end.
+ * Write output to the MCUs interface.
  */
-void MonSens_ESP8266::println(const char* output) {
-  Serial.println(output);
-  client.println(output);
-}
-void MonSens_ESP8266::println(const __FlashStringHelper* output) {
-  Serial.println(output);
-  client.println(output);
+void MonSens_ESP8266::write(const char output) {
+  Serial.write(output);
+  client.write(output);
 }
 

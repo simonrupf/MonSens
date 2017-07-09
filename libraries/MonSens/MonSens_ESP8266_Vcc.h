@@ -31,8 +31,12 @@
 
 #include <MonSens.h>
 
+const char MonSens_ESP8266_Vcc_Usage[] PROGMEM = {
+  "V   - voltage at the ESP8266 chip"
+};
+
 /**
- * MonSens implementation for a Photoresistor
+ * MonSens implementation of the ESP8266 internal voltage sensor.
  */
 class MonSens_ESP8266_Vcc: public IMonSens_Sensor {
   public:
@@ -49,7 +53,7 @@ class MonSens_ESP8266_Vcc: public IMonSens_Sensor {
     /**
      * If no sensor supports the input value, usage instructions are collected.
      */
-    const __FlashStringHelper* usage();
+    const char* getUsage();
 };
 
 #endif

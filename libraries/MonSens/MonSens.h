@@ -36,6 +36,9 @@
 #ifndef MONSENS_MAX_MEASUREMENT_WIDTH
 #  define MONSENS_MAX_MEASUREMENT_WIDTH 9
 #endif
+#ifndef MONSENS_MAX_USAGE_WIDTH
+#  define MONSENS_MAX_USAGE_WIDTH 256
+#endif
 
 /**
  * Generic sensor interface, to be implemented by each MonSens sensor.
@@ -57,12 +60,10 @@ class IMonSens_Sensor {
      */
     float getReading();
 
-  #ifndef MONSENS_NO_USAGE && __DigiCDC_h__
     /**
      * If no sensor supports the input value, usage instructions are collected.
      */
-    virtual const __FlashStringHelper* usage() = 0;
-  #endif
+    virtual const char* getUsage() = 0;
 
   protected:
     /**
@@ -108,12 +109,9 @@ class IMonSens_Communicator {
     void askSensors(const char* input);
 
     /**
-     * Write output to the MCUs interface, inserting a line break at the end.
+     * Write output to the MCUs interface.
      */
-    virtual void println(const char* output);
-  #ifndef MONSENS_NO_USAGE && __DigiCDC_h__
-    virtual void println(const __FlashStringHelper* output);
-  #endif
+    virtual void write(const char output);
 };
 
 #endif

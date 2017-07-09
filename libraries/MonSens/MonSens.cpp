@@ -57,17 +57,37 @@ void IMonSens_Communicator::askSensors(const char* input) {
     if (sensors[i]->measure(input)) {
       char measurement[MONSENS_MAX_MEASUREMENT_WIDTH];
       dtostrf(sensors[i]->getReading(), 0, 2, measurement);
-      println(measurement);
+      for (uint8_t j = 0; measurement[j] && j < MONSENS_MAX_MEASUREMENT_WIDTH; ++j) {
+        write(measurement[j]);
+      }
+      write('\r');
+      write('\n');
       return;
     }
   }
 
-  #ifndef __DigiCDC_h__
   // when no sensor supports the input, print usage instructions instead
-  println("Usage:");
+  write('U');
+  write('s');
+  write('a');
+  write('g');
+  write('e');
+  write(':');
+  write('\r');
+  write('\n');
   for (uint8_t i = 0; i < sensorCount; ++i) {
-    println(sensors[i]->usage());
+    const char* usage = sensors[i]->getUsage();
+    for (uint8_t j = 0; j < MONSENS_MAX_USAGE_WIDTH; ++j) {
+      char k = pgm_read_byte_near(usage + j);
+      // write until null termination
+      if (k) {
+        write(k);
+      } else {
+        break;
+      }
+    }
+    write('\r');
+    write('\n');
   }
-  #endif
 }
 

@@ -63,6 +63,10 @@
 //Adafruit_BME280 bme(BME_CS); // hardware SPI
 //Adafruit_BME280 bme(BME_CS, BME_MOSI, BME_MISO, BME_SCK); // software SPI
 
+const char MonSens_BME280_Usage[] PROGMEM = {
+  "C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\nhPa - barometric pressure in hekto Pascal\r\nm   - altitude in meters above sealevel\r\nRH  - relative humidity in percents"
+};
+
 /**
  * MonSens implementation for the BME280 sensor
  */
@@ -86,7 +90,7 @@ class MonSens_BME280: public IMonSens_Sensor {
     /**
      * If no sensor supports the input value, usage instructions are collected.
      */
-    const __FlashStringHelper* usage();
+    const char* getUsage();
 
   private:
     /**
