@@ -54,6 +54,9 @@ void MonSens_ESP8266::setPort(const uint16_t port) {
  * Initialize the communicator, to be called in the MCUs setup routine.
  */
 void MonSens_ESP8266::init() {
+  Serial.begin(115200);
+  delay(10);
+
   // Connect to WiFi network
   Serial.println("");
   Serial.println("");
@@ -121,6 +124,6 @@ void MonSens_ESP8266::communicate() {
  */
 void MonSens_ESP8266::write(const char output) {
   Serial.write(output);
-  client.write(output);
+  client.print(output);
 }
 

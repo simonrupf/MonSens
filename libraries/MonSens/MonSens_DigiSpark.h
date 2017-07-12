@@ -59,6 +59,16 @@ class MonSens_DigiSpark: public IMonSens_Communicator {
      * Write output to the MCUs interface.
      */
     void write(const char output);
+
+    /**
+     * Request string.
+     */
+    char request[4];
+
+    /**
+     * Request string counter.
+     */
+    char requestCounter = 0;
 };
 
 #endif
