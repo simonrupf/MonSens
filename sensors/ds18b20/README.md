@@ -45,9 +45,9 @@ communication. Breakout boards usually have such a resistor on board.
 
 The following is an example for connecting Dallas 18B20 to a NodeMCU on `D4`.
 
-![Dallas 18B20 connected to a NodeMCU](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/ds18B20/ds18B20%20nodemcu.png)
+![Dallas 18B20 connected to a NodeMCU](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/ds18b20/ds18b20%20nodemcu.png)
 
-Here below is an example for connecting Dallas 18B20 to a DigiSpark.
+Here below is an example for connecting Dallas 18B20 to a DigiSpark on pin `1`.
 
-![Dallas 18B20 connected to a DigiSpark](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/ds18B20/ds18B20%20digispark.png)
+![Dallas 18B20 connected to a DigiSpark](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/ds18b20/ds18b20%20digispark.png)
 
