@@ -41,6 +41,16 @@ do
     fi
 done
 
+# Dallas Temperature library
+if [ -w "$LIBRARY_PATH/DallasTemperature" ]
+then
+    cd "$LIBRARY_PATH/DallasTemperature"
+    git pull >/dev/null
+    cd $SELF_PATH
+else
+    git clone https://github.com/milesburton/Arduino-Temperature-Control-Library.git "$LIBRARY_PATH/DallasTemperature" >/dev/null
+fi
+
 # MonSens libraries
 cp -r "$SELF_PATH/../../libraries/MonSens"* "$LIBRARY_PATH/"
 
