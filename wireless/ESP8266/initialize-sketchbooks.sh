@@ -41,10 +41,8 @@ do
     fi
 done
 
-# MonSens libraries, excluding DigiSpark (those only work when the Arduino IDE
-# is set to that board)
-cp -r "$SELF_PATH/../../libraries/MonSens" "$LIBRARY_PATH/"
-rm "$LIBRARY_PATH/MonSens/MonSens_DigiSpark"*
+# MonSens libraries
+cp -r "$SELF_PATH/../../libraries/MonSens"* "$LIBRARY_PATH/"
 
 # MonSens sketches
 for SKETCH in monsens-esp8266-example
