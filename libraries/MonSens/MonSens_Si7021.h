@@ -20,62 +20,38 @@
 /**
  * @file
  * @author Simon Rupf <simon@rupf.net>
- * @brief MonSens implementation for the Adafruit breakout board for the Bosch
- * BMP280 sensor.
+ * @brief MonSens implementation for the Adafruit breakout board of the Silicon
+ * Labs Si7021 sensor.
  *
- * The Bosch BMP280 sensor offers barometric pressure and temperature sensing in
- * a single chip. Adafruit offers a breakout board to easily connect the BMP280
- * to an MCU: <https://www.adafruit.com/products/2651>
+ * The Silicon Labs Si7021 sensor offers relative humidity and temperature
+ * sensing in a single chip. Adafruit offers a breakout board to easily connect
+ * the Si7021 to an MCU: <https://www.adafruit.com/products/3251>
  *
  * There are other similar breakout boards that may be used with the Adafruit
- * libraries, as long as they offer either I²C or SPI interfaces. Using hardware
- * SPI is preferred, if your MCU supports it.
+ * libraries, as long as they offer an I²C interface.
  */
 
-#ifndef MONSENS_BMP280_H
-#define MONSENS_BMP280_H
+#ifndef MONSENS_SI7021_H
+#define MONSENS_SI7021_H
 
 #include <MonSens.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_BMP280.h>
+#include <Adafruit_Si7021.h>
 
-// hardware SPI pins on NodeMCU v1, v2 & v3
-#ifndef BMP_SCK
-#  define BMP_SCK 14
-#endif
-#ifndef BMP_MISO
-#  define BMP_MISO 12
-#endif
-#ifndef BMP_MOSI
-#  define BMP_MOSI 13
-#endif
-#ifndef BMP_CS
-#  define BMP_CS 15
-#endif
-
-#ifndef SEALEVELPRESSURE_HPA
-#  define SEALEVELPRESSURE_HPA (1013.25)
-#endif
-
-// use one of the below lines in your sketchbook to connect to the sensor
-//Adafruit_BMP280 bmp; // I2C
-//Adafruit_BMP280 bmp(BMP_CS); // hardware SPI
-//Adafruit_BMP280 bmp(BMP_CS, BMP_MOSI, BMP_MISO, BMP_SCK); // software SPI
-
-const char MonSens_BMP280_Usage[] PROGMEM = {
-  "C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\nhPa - barometric pressure in hekto Pascal\r\nm   - altitude in meters above sealevel"
+const char MonSens_Si7021_Usage[] PROGMEM = {
+  "C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\nRH  - relative humidity in percents"
 };
 
 /**
- * MonSens implementation for the BMP280 sensor
+ * MonSens implementation for the Si7021 sensor
  */
-class MonSens_BMP280: public IMonSens_Sensor {
+class MonSens_Si7021: public IMonSens_Sensor {
   public:
     /**
      * Inject the configured Adafruit sensor.
      */
-    void setBmp(Adafruit_BMP280 &bmp);
+    void setSi7021(Adafruit_Si7021 &si7021);
 
     /**
      * After it is registered in the communicator, the sensor gets initialized.
@@ -96,7 +72,7 @@ class MonSens_BMP280: public IMonSens_Sensor {
     /**
      * sensor interface
      */
-    Adafruit_BMP280 sensor;
+    Adafruit_Si7021 sensor;
 };
 
 #endif

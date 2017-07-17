@@ -20,61 +20,45 @@
 /**
  * @file
  * @author Simon Rupf <simon@rupf.net>
- * @brief MonSens Sensor implementation for the Adafruit breakout board for the
- * Bosch BME280 sensor.
+ * @brief MonSens implementation for the Adafruit breakout board of the Silicon
+ * Labs Si7021 sensor.
  *
- * The Bosch BME280 sensor offers humidity, barometric pressure and temperature
+ * The Silicon Labs Si7021 sensor offers relative humidity and temperature
  * sensing in a single chip. Adafruit offers a breakout board to easily connect
- * the BME280 to an MCU: <https://www.adafruit.com/product/2652>
+ * the Si7021 to an MCU: <https://www.adafruit.com/products/3251>
  *
  * There are other similar breakout boards that may be used with the Adafruit
- * libraries, as long as they offer either I²C or SPI interfaces. Using hardware
- * SPI is preferred, if your MCU supports it.
+ * libraries, as long as they offer an I²C interface.
  */
 
-#include <MonSens_BME280.h>
+#include <MonSens_Si7021.h>
 
 /**
  * Inject the configured Adafruit sensor.
  */
-void MonSens_BME280::setBme(Adafruit_BME280 &bme) {
-  sensor = bme;
+void MonSens_Si7021::setSi7021(Adafruit_Si7021 &si7021) {
+  sensor = si7021;
 }
 
 /**
  * After it is registered in the communicator, the sensor gets initialized.
  */
-void MonSens_BME280::init() {
+void MonSens_Si7021::init() {
   if(!sensor.begin()) {
-    Serial.println("Could not find a valid BME280 sensor, check wiring!");
+    Serial.println("Could not find a valid Si7021 sensor, check wiring!");
     while(1);
   }
-  delay(100); // let the sensor boot up
 }
 
 /**
  * Take a sensor reading, to be returned by the communicator.
  */
-bool MonSens_BME280::measure(const char* input) {
+bool MonSens_Si7021::measure(const char* input) {
   if (strstr(input, "C") != NULL) {
-    // read twice to avoid cached value
-    sensor.readTemperature();
     reading = sensor.readTemperature();
   } else if (strstr(input, "K") != NULL) {
-    // read twice to avoid cached value
-    sensor.readTemperature();
     reading = sensor.readTemperature() + 273.15F;
-  } else if (strstr(input, "hPa") != NULL) {
-    // read twice to avoid cached value
-    sensor.readPressure();
-    reading = sensor.readPressure() / 100.0F;
-  } else if (strstr(input, "m") != NULL) {
-    // read twice to avoid cached value
-    sensor.readAltitude(SEALEVELPRESSURE_HPA);
-    reading = sensor.readAltitude(SEALEVELPRESSURE_HPA);
   } else if (strstr(input, "RH") != NULL) {
-    // read twice to avoid cached value
-    sensor.readHumidity();
     reading = sensor.readHumidity();
   } else {
     return false;
@@ -85,7 +69,7 @@ bool MonSens_BME280::measure(const char* input) {
 /**
  * If no sensor supports the input value, usage instructions are collected.
  */
-const char* MonSens_BME280::getUsage() {
-  return MonSens_BME280_Usage;
+const char* MonSens_Si7021::getUsage() {
+  return MonSens_Si7021_Usage;
 }
 

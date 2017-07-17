@@ -28,7 +28,7 @@
  * to an MCU: <https://www.adafruit.com/products/2651>
  *
  * There are other similar breakout boards that may be used with the Adafruit
- * libraries, as long as they offer either I2C or SPI interfaces. Using hardware
+ * libraries, as long as they offer either I²C or SPI interfaces. Using hardware
  * SPI is preferred, if your MCU supports it.
  */
 
