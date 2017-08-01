@@ -5,14 +5,27 @@
  * serial interface.
  */
 
-#include <DigiCDC.h>
+// (optional) conserve memory by reducing the reserved space for the following
+// variables
+// maximum sensors supported, defaults to 10 (this example only uses 2)
+#define MONSENS_MAX_SENSORS 10
+// maximum length of measurement strings, defaults to 9 (5 digits, 1 decimal
+// point, 2 digits after the point and 1 string termination character)
+#define MONSENS_MAX_MEASUREMENT_WIDTH 9
+
+#include <MonSens_DigiSpark.h>
+MonSens_DigiSpark mcu;
+
+#include <MonSens_DigiSpark_Temperature.h>
+
+MonSens_DigiSpark_Temperature temp;
 
 /**
  * initialize USB interface
  */
 void setup() {
-  SerialUSB.begin();
-  analogReference(INTERNAL1V1);
+  mcu.init();
+  mcu.addSensor(temp);
 }
 
 /**
@@ -22,22 +35,6 @@ void setup() {
  * according result
  */
 void loop() {
-  if (SerialUSB.available()) {
-    char c;
-    c = SerialUSB.read(); // gets one byte from serial buffer
-    SerialUSB.delay(50);  // wait for the shell to be ready to read
-    if (c == 'C' || c == 'K') {
-      int temp = analogRead(A0+15);
-      SerialUSB.refresh();
-      if (c == 'C') {
-        temp -= 273;
-      }
-      char val[5];
-      sprintf(val, "%d", temp + 8);
-      SerialUSB.print(val);
-      SerialUSB.print("\n");
-    }
-  }
-  SerialUSB.delay(3);
+  mcu.communicate();
 }
 

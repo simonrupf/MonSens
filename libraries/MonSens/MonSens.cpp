@@ -30,7 +30,7 @@
 /**
  * Returns the last sensor reading.
  */
-float IMonSens_Sensor::getReading() {
+int16_t IMonSens_Sensor::getReading() {
   return reading;
 }
 
@@ -55,11 +55,16 @@ void IMonSens_Communicator::askSensors(const char* input) {
   // returning the measurement if it does
   for (uint8_t i = 0; i < sensorCount; ++i) {
     if (sensors[i]->measure(input)) {
-      char measurement[MONSENS_MAX_MEASUREMENT_WIDTH];
-      dtostrf(sensors[i]->getReading(), 0, 2, measurement);
-      for (uint8_t j = 0; measurement[j] && j < MONSENS_MAX_MEASUREMENT_WIDTH; ++j) {
-        write(measurement[j]);
+      int16_t reading = sensors[i]->getReading();
+      if (reading < 0 && reading > -99) {
+        write('-');
       }
+      writeInt(reading / 100);
+      write('.');
+      if (reading < 10 && reading > -10) {
+        write('0');
+      }
+      writeInt(((reading < 0) ? - (unsigned) reading : reading) % 100);
       write('\r');
       write('\n');
       return;
@@ -88,6 +93,17 @@ void IMonSens_Communicator::askSensors(const char* input) {
     }
     write('\r');
     write('\n');
+  }
+}
+
+/**
+ * Write integer to the MCUs interface.
+ */
+void IMonSens_Communicator::writeInt(const int16_t reading) {
+  char measurement[MONSENS_MAX_MEASUREMENT_WIDTH];
+  snprintf(measurement, MONSENS_MAX_MEASUREMENT_WIDTH, "%d", reading);
+  for (uint8_t i = 0; measurement[i] && i < MONSENS_MAX_MEASUREMENT_WIDTH; ++i) {
+    write(measurement[i]);
   }
 }
 

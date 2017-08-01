@@ -61,7 +61,7 @@ bool MonSens_DigiSpark_Vcc::measure(const char* input) {
     uint8_t high = ADCH; // unlock both
     uint16_t result = (high << 8) | low;
 
-    reading = (1.1 * 1023.0) / (float) result; // Calculate Vcc
+    reading = 112530 / result; // Calculate Vcc
     return true;
   }
   return false;

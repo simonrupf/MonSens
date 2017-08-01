@@ -58,7 +58,7 @@ class IMonSens_Sensor {
     /**
      * Returns the last sensor reading.
      */
-    float getReading();
+    int16_t getReading();
 
     /**
      * If no sensor supports the input value, usage instructions are collected.
@@ -69,7 +69,7 @@ class IMonSens_Sensor {
     /**
      * Last measured sensor reading.
      */
-    float reading = 0.0;
+    int16_t reading = 0;
 };
 
 /**
@@ -107,6 +107,11 @@ class IMonSens_Communicator {
      * Get the sensor measurement for a given input and write it to output
      */
     void askSensors(const char* input);
+
+    /**
+     * Write integer to the MCUs interface.
+     */
+    void writeInt(const int16_t reading);
 
     /**
      * Write output to the MCUs interface.

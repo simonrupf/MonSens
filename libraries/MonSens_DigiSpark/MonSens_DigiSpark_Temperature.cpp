@@ -39,7 +39,7 @@ void MonSens_DigiSpark_Temperature::init() {
  */
 bool MonSens_DigiSpark_Temperature::measure(const char* input) {
   if (strstr(input, "C") != NULL) {
-    reading = (float) (analogRead(A0+15) - 273);
+    reading = (analogRead(A0+15) - 273) * 100;
     return true;
   }
   return false;

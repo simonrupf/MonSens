@@ -55,11 +55,11 @@ void MonSens_Si7021::init() {
  */
 bool MonSens_Si7021::measure(const char* input) {
   if (strstr(input, "C") != NULL) {
-    reading = sensor.readTemperature();
+    reading = sensor.readTemperature() * 100;
   } else if (strstr(input, "K") != NULL) {
-    reading = sensor.readTemperature() + 273.15F;
+    reading = (sensor.readTemperature() * 100) + 27315;
   } else if (strstr(input, "RH") != NULL) {
-    reading = sensor.readHumidity();
+    reading = sensor.readHumidity() * 100;
   } else {
     return false;
   }

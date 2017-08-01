@@ -47,7 +47,7 @@ void MonSens_Photoresistor::init() {
  */
 bool MonSens_Photoresistor::measure(const char* input) {
   if (strstr(input, "R") != NULL) {
-    reading = (float) analogRead(sensorPin);
+    reading = analogRead(sensorPin) * 100;
     return true;
   }
   return false;

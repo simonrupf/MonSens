@@ -39,7 +39,7 @@ void MonSens_ESP8266_Vcc::init() {
  */
 bool MonSens_ESP8266_Vcc::measure(const char* input) {
   if (strstr(input, "V") != NULL) {
-    reading = (float) ESP.getVcc() / 1000.0;
+    reading = ESP.getVcc() / 10;
     return true;
   }
   return false;

@@ -59,23 +59,23 @@ bool MonSens_BME280::measure(const char* input) {
   if (strstr(input, "C") != NULL) {
     // read twice to avoid cached value
     sensor.readTemperature();
-    reading = sensor.readTemperature();
+    reading = sensor.readTemperature() * 100;
   } else if (strstr(input, "K") != NULL) {
     // read twice to avoid cached value
     sensor.readTemperature();
-    reading = sensor.readTemperature() + 273.15F;
+    reading = (sensor.readTemperature() * 100) + 27315;
   } else if (strstr(input, "hPa") != NULL) {
     // read twice to avoid cached value
     sensor.readPressure();
-    reading = sensor.readPressure() / 100.0F;
+    reading = sensor.readPressure();
   } else if (strstr(input, "m") != NULL) {
     // read twice to avoid cached value
     sensor.readAltitude(SEALEVELPRESSURE_HPA);
-    reading = sensor.readAltitude(SEALEVELPRESSURE_HPA);
+    reading = sensor.readAltitude(SEALEVELPRESSURE_HPA) * 100;
   } else if (strstr(input, "RH") != NULL) {
     // read twice to avoid cached value
     sensor.readHumidity();
-    reading = sensor.readHumidity();
+    reading = sensor.readHumidity() * 100;
   } else {
     return false;
   }
