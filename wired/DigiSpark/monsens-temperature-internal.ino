@@ -20,12 +20,17 @@ MonSens_DigiSpark mcu;
 
 MonSens_DigiSpark_Temperature temp;
 
+#include <MonSens_DigiSpark_Vcc.h>
+
+MonSens_DigiSpark_Vcc vcc;
+
 /**
  * initialize USB interface
  */
 void setup() {
   mcu.init();
   mcu.addSensor(temp);
+  mcu.addSensor(vcc);
 }
 
 /**
