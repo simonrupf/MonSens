@@ -33,12 +33,12 @@
 #ifndef MONSENS_MAX_SENSORS
 #  define MONSENS_MAX_SENSORS 10
 #endif
-#ifndef MONSENS_MAX_MEASUREMENT_WIDTH
-#  define MONSENS_MAX_MEASUREMENT_WIDTH 9
-#endif
 #ifndef MONSENS_MAX_USAGE_WIDTH
 #  define MONSENS_MAX_USAGE_WIDTH 256
 #endif
+
+const char MonSens_Usage[] PROGMEM = {"Usage:\r\n"};
+const char MonSens_EOL[]   PROGMEM = {"\r\n"};
 
 /**
  * Generic sensor interface, to be implemented by each MonSens sensor.
@@ -107,6 +107,11 @@ class IMonSens_Communicator {
      * Get the sensor measurement for a given input and write it to output
      */
     void askSensors(const char* input);
+
+    /**
+     * Write PROGMEM to the MCUs interface.
+     */
+    void writeProgMem(const char* line);
 
     /**
      * Write integer to the MCUs interface.

@@ -38,8 +38,11 @@ int16_t IMonSens_Sensor::getReading() {
  * Register a sensor in the communicator.
  */
 void IMonSens_Communicator::addSensor(IMonSens_Sensor &sensor) {
-  sensors[sensorCount++] = &sensor;
-  sensor.init();
+  // do not add more sensors then are supported
+  if (sensorCount < MONSENS_MAX_SENSORS) {
+    sensors[sensorCount++] = &sensor;
+    sensor.init();
+  }
 }
 
 /**
@@ -56,7 +59,7 @@ void IMonSens_Communicator::askSensors(const char* input) {
   for (uint8_t i = 0; i < sensorCount; ++i) {
     if (sensors[i]->measure(input)) {
       int16_t reading = sensors[i]->getReading();
-      if (reading < 0 && reading > -99) {
+      if (reading < 0) {
         write('-');
       }
       writeInt(reading / 100);
@@ -64,35 +67,29 @@ void IMonSens_Communicator::askSensors(const char* input) {
       if (reading < 10 && reading > -10) {
         write('0');
       }
-      writeInt(((reading < 0) ? - (unsigned) reading : reading) % 100);
-      write('\r');
-      write('\n');
+      writeInt(reading % 100);
+      writeProgMem(MonSens_EOL);
       return;
     }
   }
 
   // when no sensor supports the input, print usage instructions instead
-  write('U');
-  write('s');
-  write('a');
-  write('g');
-  write('e');
-  write(':');
-  write('\r');
-  write('\n');
+  writeProgMem(MonSens_Usage);
   for (uint8_t i = 0; i < sensorCount; ++i) {
-    const char* usage = sensors[i]->getUsage();
-    for (uint8_t j = 0; j < MONSENS_MAX_USAGE_WIDTH; ++j) {
-      char k = pgm_read_byte_near(usage + j);
-      // write until null termination
-      if (k) {
-        write(k);
-      } else {
-        break;
-      }
-    }
-    write('\r');
-    write('\n');
+    writeProgMem(sensors[i]->getUsage());
+    writeProgMem(MonSens_EOL);
+  }
+}
+
+/**
+ * Write PROGMEM to the MCUs interface.
+ */
+void IMonSens_Communicator::writeProgMem(const char* line) {
+  uint8_t i;
+  char c;
+  for (i = 0, c = 1; c; ++i) {
+    c = pgm_read_byte_near(line + i);
+    write(c);
   }
 }
 
@@ -100,10 +97,23 @@ void IMonSens_Communicator::askSensors(const char* input) {
  * Write integer to the MCUs interface.
  */
 void IMonSens_Communicator::writeInt(const int16_t reading) {
-  char measurement[MONSENS_MAX_MEASUREMENT_WIDTH];
-  snprintf(measurement, MONSENS_MAX_MEASUREMENT_WIDTH, "%d", reading);
-  for (uint8_t i = 0; measurement[i] && i < MONSENS_MAX_MEASUREMENT_WIDTH; ++i) {
-    write(measurement[i]);
+  // convert to unsigned
+  uint16_t n = (reading < 0) ? - (unsigned) reading : reading;
+  uint16_t n10 = 10 * n;
+  // make this the same order of magnitude as MAX_INT for your integer type
+  uint16_t digit = 10000;
+
+  if (0 == n) {
+    write('0' + 0);
+  } else {
+    // reduce size of digit to match the magnitude of given reading
+    while (digit > n10) {
+      digit /= 10;
+    }
+    // write digits until we reach floor(1 / 10) = 0 (int division rounds down)
+    while (digit /= 10) {
+      write('0' + (n / digit) % 10);
+    }
   }
 }
 
