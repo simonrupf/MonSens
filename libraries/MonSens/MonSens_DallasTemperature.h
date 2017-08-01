@@ -34,13 +34,6 @@
 #include <MonSens.h>
 #include <OneWire.h>
 
-// Model IDs
-#define DS18S20MODEL    0x10  // also DS1820
-#define DS18B20MODEL    0x28
-#define DS1822MODEL     0x22
-#define DS1825MODEL     0x3B
-#define DS28EA00MODEL   0x42
-
 // OneWire commands
 #define STARTCONVO      0x44  // Tells device to take a temperature reading and put it on the scratchpad
 #define COPYSCRATCH     0x48  // Copy EEPROM
@@ -117,13 +110,8 @@ class MonSens_DallasTemperature: public IMonSens_Sensor {
     OneWire* wire;
 
     /**
-     * Number of devices found on the bus
-     */
-    uint8_t devices = 0;
-
-    /**
      * used to determine the delay amount needed to allow for the temperature
-     * conversion to take place
+     * conversion to take place, 9-12
      */
     uint8_t bitResolution = 9;
 
@@ -144,11 +132,6 @@ class MonSens_DallasTemperature: public IMonSens_Sensor {
     bool isConnected(const uint8_t* deviceAddress, uint8_t* scratchPad);
 
     /**
-     * Check the power supply mode of the given device
-     */
-    bool readPowerSupply(const uint8_t* deviceAddress);
-
-    /**
      * Update the read scratchpad
      */
     bool readScratchPad(const uint8_t* deviceAddress, uint8_t* scratchPad);
@@ -157,12 +140,6 @@ class MonSens_DallasTemperature: public IMonSens_Sensor {
      * sends command for one device to perform a temp conversion by index
      */
     bool requestTemperaturesByIndex(uint8_t deviceIndex);
-
-    /**
-     * sends command for one device to perform a temperature by address
-     * returns FALSE if device is disconnected, TRUE otherwise
-     */
-    bool requestTemperaturesByAddress(const uint8_t* deviceAddress);
 
     /**
      * finds an address at a given index on the bus
