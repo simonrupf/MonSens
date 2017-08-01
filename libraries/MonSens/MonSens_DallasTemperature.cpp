@@ -56,13 +56,9 @@ bool MonSens_DallasTemperature::measure(const char* input) {
   if (strstr(input, "C") != NULL) {
     sensor.requestTemperaturesByIndex(sensorIndex);
     reading = sensor.getTempCByIndex(sensorIndex) * 100;
-  } else if (strstr(input, "K") != NULL) {
-    sensor.requestTemperaturesByIndex(sensorIndex);
-    reading = (sensor.getTempCByIndex(sensorIndex) * 100) + 27315;
-  } else {
-    return false;
+    return true;
   }
-  return true;
+  return false;
 }
 
 /**

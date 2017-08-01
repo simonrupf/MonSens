@@ -60,10 +60,6 @@ bool MonSens_BMP280::measure(const char* input) {
     // read twice to avoid cached value
     sensor.readTemperature();
     reading = sensor.readTemperature() * 100;
-  } else if (strstr(input, "K") != NULL) {
-    // read twice to avoid cached value
-    sensor.readTemperature();
-    reading = (sensor.readTemperature() * 100) + 27315;
   } else if (strstr(input, "hPa") != NULL) {
     // read twice to avoid cached value
     sensor.readPressure();

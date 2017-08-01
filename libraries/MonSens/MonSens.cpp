@@ -83,11 +83,11 @@ void IMonSens_Communicator::askSensors(const char* input) {
 /**
  * Write PROGMEM to the MCUs interface.
  */
-void IMonSens_Communicator::writeProgMem(const char* line) {
+void IMonSens_Communicator::writeProgMem(const char* mem) {
   uint8_t i;
   char c;
   for (i = 0, c = 1; c; ++i) {
-    c = pgm_read_byte_near(line + i);
+    c = pgm_read_byte_near(mem + i);
     write(c);
   }
 }

@@ -111,7 +111,7 @@ class IMonSens_Communicator {
     /**
      * Write PROGMEM to the MCUs interface.
      */
-    void writeProgMem(const char* line);
+    void writeProgMem(const char* mem);
 
     /**
      * Write integer to the MCUs interface.
