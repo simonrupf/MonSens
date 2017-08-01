@@ -9,9 +9,6 @@
 // variables
 // maximum sensors supported, defaults to 10 (this example only uses 2)
 #define MONSENS_MAX_SENSORS 10
-// maximum length of measurement strings, defaults to 9 (5 digits, 1 decimal
-// point, 2 digits after the point and 1 string termination character)
-#define MONSENS_MAX_MEASUREMENT_WIDTH 9
 
 #include <MonSens_DigiSpark.h>
 MonSens_DigiSpark mcu;

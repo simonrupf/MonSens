@@ -33,9 +33,6 @@
 #ifndef MONSENS_MAX_SENSORS
 #  define MONSENS_MAX_SENSORS 10
 #endif
-#ifndef MONSENS_MAX_USAGE_WIDTH
-#  define MONSENS_MAX_USAGE_WIDTH 256
-#endif
 
 const char MonSens_Usage[] PROGMEM = {"Usage:\r\n"};
 const char MonSens_EOL[]   PROGMEM = {"\r\n"};
