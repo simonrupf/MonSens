@@ -35,7 +35,7 @@
 #include <DallasTemperature.h>
 
 const char MonSens_DallasTemperature_Usage[] PROGMEM = {
-  "C   - temperature in Celsius\r\nK   - temperature in Kelvin"
+  "C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\n"
 };
 
 /**

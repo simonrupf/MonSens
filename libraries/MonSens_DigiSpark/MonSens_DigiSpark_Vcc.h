@@ -31,7 +31,7 @@
 #include <MonSens.h>
 
 const char MonSens_DigiSpark_Vcc_Usage[] PROGMEM = {
-  "V   - voltage at the DigiSpark chip"
+  "V   - voltage at the ATtiny85 chip\r\n"
 };
 
 /**

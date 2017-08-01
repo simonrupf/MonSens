@@ -33,7 +33,7 @@
 #include <MonSens.h>
 
 const char MonSens_Photoresistor_Usage[] PROGMEM = {
-  "R   - resistance relative to light level"
+  "R   - resistance relative to light level\r\n"
 };
 
 /**

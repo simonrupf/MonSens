@@ -40,7 +40,7 @@
 #include <Adafruit_Si7021.h>
 
 const char MonSens_Si7021_Usage[] PROGMEM = {
-  "C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\nRH  - relative humidity in percents"
+  "C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\nRH  - relative humidity in percents\r\n"
 };
 
 /**

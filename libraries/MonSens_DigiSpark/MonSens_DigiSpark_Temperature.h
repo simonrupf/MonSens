@@ -31,7 +31,7 @@
 #include <MonSens.h>
 
 const char MonSens_DigiSpark_Temperature_Usage[] PROGMEM = {
-  "C   - temperature inside the ATTiny85 in Celsius"
+  "C   - temperature inside the ATTiny85 in Celsius\r\n"
 };
 
 /**

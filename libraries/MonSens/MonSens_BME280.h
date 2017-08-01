@@ -64,7 +64,7 @@
 //Adafruit_BME280 bme(BME_CS, BME_MOSI, BME_MISO, BME_SCK); // software SPI
 
 const char MonSens_BME280_Usage[] PROGMEM = {
-  "C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\nhPa - barometric pressure in hekto Pascal\r\nm   - altitude in meters above sealevel\r\nRH  - relative humidity in percents"
+  "C   - temperature in Celsius\r\nK   - temperature in Kelvin\r\nhPa - barometric pressure in hekto Pascal\r\nm   - altitude in meters above sealevel\r\nRH  - relative humidity in percents\r\n"
 };
 
 /**

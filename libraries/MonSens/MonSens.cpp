@@ -77,7 +77,6 @@ void IMonSens_Communicator::askSensors(const char* input) {
   writeProgMem(MonSens_Usage);
   for (uint8_t i = 0; i < sensorCount; ++i) {
     writeProgMem(sensors[i]->getUsage());
-    writeProgMem(MonSens_EOL);
   }
 }
 
@@ -99,7 +98,6 @@ void IMonSens_Communicator::writeProgMem(const char* line) {
 void IMonSens_Communicator::writeInt(const int16_t reading) {
   // convert to unsigned
   uint16_t n = (reading < 0) ? - (unsigned) reading : reading;
-  uint16_t n10 = 10 * n;
   // make this the same order of magnitude as MAX_INT for your integer type
   uint16_t digit = 10000;
 
@@ -107,7 +105,7 @@ void IMonSens_Communicator::writeInt(const int16_t reading) {
     write('0' + 0);
   } else {
     // reduce size of digit to match the magnitude of given reading
-    while (digit > n10) {
+    while (digit > (10 * n)) {
       digit /= 10;
     }
     // write digits until we reach floor(1 / 10) = 0 (int division rounds down)

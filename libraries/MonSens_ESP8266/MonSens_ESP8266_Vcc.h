@@ -32,7 +32,7 @@
 #include <MonSens.h>
 
 const char MonSens_ESP8266_Vcc_Usage[] PROGMEM = {
-  "V   - voltage at the ESP8266 chip"
+  "V   - voltage at the ESP8266 chip\r\n"
 };
 
 /**
