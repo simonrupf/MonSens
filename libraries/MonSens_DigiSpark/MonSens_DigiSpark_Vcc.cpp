@@ -20,7 +20,7 @@
 /**
  * @file
  * @author Simon Rupf <simon@rupf.net>
- * @brief MonSens implementation of the DigiSpark internal voltage sensor.
+ * @brief MonSens implementation of the ATtiny's internal voltage sensor.
  *
  * The DigiSpark can measure its internal voltage (around 5 V).
  */

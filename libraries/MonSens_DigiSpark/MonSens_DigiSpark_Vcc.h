@@ -20,7 +20,7 @@
 /**
  * @file
  * @author Simon Rupf <simon@rupf.net>
- * @brief MonSens implementation of the DigiSpark internal voltage sensor.
+ * @brief MonSens implementation of the ATtiny's internal voltage sensor.
  *
  * The DigiSpark can measure its internal voltage (around 5 V).
  */
@@ -31,7 +31,7 @@
 #include <MonSens.h>
 
 const char MonSens_DigiSpark_Vcc_Usage[] PROGMEM = {
-  "V   - voltage at the ATtiny85 chip\r\n"
+  "V   - voltage at the ATtiny85 MCU\r\n"
 };
 
 /**

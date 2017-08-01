@@ -22,7 +22,7 @@
  * @author Simon Rupf <simon@rupf.net>
  * @brief MonSens implementation of the DigiSpark internal temperature sensor.
  *
- * The DigiSpark can measure the internal temperature inside the ATTiny85 MCU.
+ * The DigiSpark can measure the internal temperature inside the ATtiny85 MCU.
  */
 
 #ifndef MONSENS_DIGISPARK_TEMPERATURE_H
@@ -31,7 +31,7 @@
 #include <MonSens.h>
 
 const char MonSens_DigiSpark_Temperature_Usage[] PROGMEM = {
-  "C   - temperature inside the ATTiny85 in Celsius\r\n"
+  "C   - temperature inside the ATtiny85 in Celsius\r\n"
 };
 
 /**

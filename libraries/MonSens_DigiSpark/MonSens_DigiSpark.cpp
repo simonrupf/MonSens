@@ -39,25 +39,23 @@ void MonSens_DigiSpark::init() {
  * Read inputs and respond to them, to be called in the MCUs loop routine.
  */
 void MonSens_DigiSpark::communicate() {
-  // Check if a client has connected
+  // Check if a client has sent something
   if (SerialUSB.available()) {
     request[requestCounter] = SerialUSB.read();
     if (
       requestCounter > 1 ||
-      request[requestCounter] != '\r' ||
-      request[requestCounter] != '\n'
+      request[requestCounter] == '\r' ||
+      request[requestCounter] == '\n'
     ) {
-      // ask sensors for output and return it
-      askSensors(request);
-      request[0] = '\0';
+      SerialUSB.delay(17); // wait for the client to be ready to read
+      askSensors(request); // ask sensors for output and return it
+      request = "";
       requestCounter = 0;
     } else {
       ++requestCounter;
-      SerialUSB.delay(50); // wait for the shell to be ready to read
+      SerialUSB.delay(47); // wait for the shell to be ready to read
     }
-    SerialUSB.refresh();
   }
-
   SerialUSB.delay(3);
 }
 

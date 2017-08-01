@@ -22,7 +22,7 @@
  * @author Simon Rupf <simon@rupf.net>
  * @brief MonSens implementation of the DigiSpark internal temperature sensor.
  *
- * The DigiSpark can measure the internal temperature inside the ATTiny85 MCU.
+ * The DigiSpark can measure the internal temperature inside the ATtiny85 MCU.
  */
 
 #include <MonSens_DigiSpark_Temperature.h>
