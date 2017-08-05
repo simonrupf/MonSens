@@ -61,7 +61,7 @@ bool MonSens_DallasTemperature::measure(const char* input) {
 
     wire->reset_search();
     while (depth <= sensorIndex && wire->search(deviceAddress)) {
-      if (depth == sensorIndex && (wire->crc8(deviceAddress, 7) == deviceAddress[7])) {
+      if (depth == sensorIndex) {
         break;
       }
       ++depth;
@@ -101,16 +101,10 @@ bool MonSens_DallasTemperature::measure(const char* input) {
     }
     wire->reset();
 
-    if (
-      (wire->crc8(scratchPad, 8) == scratchPad[SCRATCHPAD_CRC])
-    ) {
-      reading = (
-        (((int16_t) scratchPad[TEMP_MSB]) << 11) |
-        (((int16_t) scratchPad[TEMP_LSB]) << 3)
-      ) * 100 / 128;
-    } else {
-      reading = -127;
-    }
+    reading = (
+      (((int16_t) scratchPad[TEMP_MSB]) << 11) |
+      (((int16_t) scratchPad[TEMP_LSB]) << 3)
+    ) * 100 / 128;
     return true;
   }
   return false;

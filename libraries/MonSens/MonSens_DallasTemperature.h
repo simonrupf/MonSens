@@ -71,8 +71,6 @@
 #define TEMP_11_BIT     0x5F // 11 bit
 #define TEMP_12_BIT     0x7F // 12 bit
 
-typedef uint8_t DeviceAddress[8];
-
 const char MonSens_DallasTemperature_Usage[] PROGMEM = {
   "C   - temperature in Celsius\r\n"
 };
@@ -108,6 +106,7 @@ class MonSens_DallasTemperature: public IMonSens_Sensor {
     const char* getUsage();
 
   private:
+    typedef uint8_t DeviceAddress[8];
     typedef uint8_t ScratchPad[9];
 
     /**
