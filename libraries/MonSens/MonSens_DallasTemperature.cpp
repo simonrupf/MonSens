@@ -55,8 +55,62 @@ void MonSens_DallasTemperature::init() {
  */
 bool MonSens_DallasTemperature::measure(const char* input) {
   if (strstr(input, "C") != NULL) {
-    requestTemperaturesByIndex(sensorIndex);
-    reading = getTempByIndex(sensorIndex);
+    DeviceAddress deviceAddress;
+    ScratchPad scratchPad;
+    uint8_t depth = 0;
+
+    wire->reset_search();
+    while (depth <= sensorIndex && wire->search(deviceAddress)) {
+      if (depth == sensorIndex && (wire->crc8(deviceAddress, 7) == deviceAddress[7])) {
+        break;
+      }
+      ++depth;
+    }
+    wire->reset();
+    wire->select(deviceAddress);
+    wire->write(STARTCONVO, MONSENS_DALLASTEMPERATURE_PARASITE);
+#if MONSENS_DALLASTEMPERATURE_BITRESOLUTION == 9
+    delay(94);
+#elif MONSENS_DALLASTEMPERATURE_BITRESOLUTION == 10
+    delay(188);
+#elif MONSENS_DALLASTEMPERATURE_BITRESOLUTION == 11
+    delay(375);
+#else
+    delay(750);
+#endif
+
+    wire->reset();
+    wire->select(deviceAddress);
+    wire->write(READSCRATCH);
+
+    // Read all registers in a simple loop
+    // byte 0: temperature LSB
+    // byte 1: temperature MSB
+    // byte 2: high alarm temp
+    // byte 3: low alarm temp
+    // byte 4: DS18S20: store for crc
+    //         DS18B20 & DS1822: configuration register
+    // byte 5: internal use & crc
+    // byte 6: DS18S20: COUNT_REMAIN
+    //         DS18B20 & DS1822: store for crc
+    // byte 7: DS18S20: COUNT_PER_C
+    //         DS18B20 & DS1822: store for crc
+    // byte 8: SCRATCHPAD_CRC
+    for (uint8_t i = 0; i < 9; i++) {
+      scratchPad[i] = wire->read();
+    }
+    wire->reset();
+
+    if (
+      (wire->crc8(scratchPad, 8) == scratchPad[SCRATCHPAD_CRC])
+    ) {
+      reading = (
+        (((int16_t) scratchPad[TEMP_MSB]) << 11) |
+        (((int16_t) scratchPad[TEMP_LSB]) << 3)
+      ) * 100 / 128;
+    } else {
+      reading = -127;
+    }
     return true;
   }
   return false;
@@ -67,127 +121,5 @@ bool MonSens_DallasTemperature::measure(const char* input) {
  */
 const char* MonSens_DallasTemperature::getUsage() {
   return MonSens_DallasTemperature_Usage;
-}
-
-/**
- * Is the given address valid
- */
-bool MonSens_DallasTemperature::isValidAddress(const uint8_t* deviceAddress) {
-  return (wire->crc8(deviceAddress, 7) == deviceAddress[7]);
-}
-
-/**
- * attempt to determine if the device at the given address is connected to the
- * bus also allows for updating the read scratchpad
- */
-bool MonSens_DallasTemperature::isConnected(const uint8_t* deviceAddress, uint8_t* scratchPad) {
-  bool b = readScratchPad(deviceAddress, scratchPad);
-  return b && (wire->crc8(scratchPad, 8) == scratchPad[SCRATCHPAD_CRC]);
-}
-
-/**
- * Update the read scratchpad
- */
-bool MonSens_DallasTemperature::readScratchPad(const uint8_t* deviceAddress, uint8_t* scratchPad) {
-  // send the reset command and fail fast
-  int8_t b = wire->reset();
-  if (b == 0) return false;
-
-  wire->select(deviceAddress);
-  wire->write(READSCRATCH);
-
-  // Read all registers in a simple loop
-  // byte 0: temperature LSB
-  // byte 1: temperature MSB
-  // byte 2: high alarm temp
-  // byte 3: low alarm temp
-  // byte 4: DS18S20: store for crc
-  //         DS18B20 & DS1822: configuration register
-  // byte 5: internal use & crc
-  // byte 6: DS18S20: COUNT_REMAIN
-  //         DS18B20 & DS1822: store for crc
-  // byte 7: DS18S20: COUNT_PER_C
-  //         DS18B20 & DS1822: store for crc
-  // byte 8: SCRATCHPAD_CRC
-  for (uint8_t i = 0; i < 9; i++) {
-    scratchPad[i] = wire->read();
-  }
-
-  b = wire->reset();
-  return (b == 1);
-}
-
-/**
- * sends command for one device to perform a temp conversion by index
- */
-bool MonSens_DallasTemperature::requestTemperaturesByIndex(uint8_t deviceIndex) {
-  DeviceAddress deviceAddress;
-  getAddress(deviceAddress, deviceIndex);
-
-  wire->reset();
-  wire->select(deviceAddress);
-  wire->write(STARTCONVO, parasite);
-
-  blockTillConversionComplete(bitResolution);
-  return true;
-}
-
-/**
- * finds an address at a given index on the bus
- * returns true if the device was found
- */
-bool MonSens_DallasTemperature::getAddress(uint8_t* deviceAddress, uint8_t index) {
-  uint8_t depth = 0;
-  wire->reset_search();
-  while (depth <= index && wire->search(deviceAddress)) {
-    if (depth == index && isValidAddress(deviceAddress)) {
-      return true;
-    }
-    ++depth;
-  }
-  return false;
-}
-
-/**
- * Fetch temperature for device index
- */
-int16_t MonSens_DallasTemperature::getTempByIndex(uint8_t deviceIndex) {
-  DeviceAddress deviceAddress;
-  if (!getAddress(deviceAddress, deviceIndex)) {
-      return -127;
-  }
-
-  ScratchPad scratchPad;
-  if (isConnected(deviceAddress, scratchPad)) {
-    int16_t fpTemperature =
-      (((int16_t) scratchPad[TEMP_MSB]) << 11) |
-      (((int16_t) scratchPad[TEMP_LSB]) << 3);
-    return fpTemperature * 100 / 128;
-  } else {
-    return -127;
-  }
-}
-
-/**
- * Continue to check if the IC has responded with a temperature
- */
-void MonSens_DallasTemperature::blockTillConversionComplete(uint8_t bitResolution) {
-  uint16_t delms;
-  switch (bitResolution) {
-    case 9:
-      delms = 94;
-    case 10:
-      delms = 188;
-    case 11:
-      delms = 375;
-    default:
-      delms = 750;
-  }
-  if (!parasite){
-    unsigned long now = millis();
-    while(wire->read_bit() != 1 && (millis() - delms < now));
-  } else {
-    delay(delms);
-  }
 }
 

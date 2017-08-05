@@ -34,6 +34,17 @@
 #include <MonSens.h>
 #include <OneWire.h>
 
+/**
+ * used to determine the delay amount needed to allow for the temperature
+ * conversion to take place, 9-12
+ */
+#define MONSENS_DALLASTEMPERATURE_BITRESOLUTION 9
+
+/**
+ * Is parasite power mode used
+ */
+#define MONSENS_DALLASTEMPERATURE_PARASITE false
+
 // OneWire commands
 #define STARTCONVO      0x44  // Tells device to take a temperature reading and put it on the scratchpad
 #define COPYSCRATCH     0x48  // Copy EEPROM
@@ -108,59 +119,6 @@ class MonSens_DallasTemperature: public IMonSens_Sensor {
      * sensor interface
      */
     OneWire* wire;
-
-    /**
-     * used to determine the delay amount needed to allow for the temperature
-     * conversion to take place, 9-12
-     */
-    uint8_t bitResolution = 9;
-
-    /**
-     * Was parasite power mode detected
-     */
-    bool parasite = false;
-
-    /**
-     * Is the given address valid
-     */
-    bool isValidAddress(const uint8_t* deviceAddress);
-
-    /**
-     * attempt to determine if the device at the given address is connected to the
-     * bus also allows for updating the read scratchpad
-     */
-    bool isConnected(const uint8_t* deviceAddress, uint8_t* scratchPad);
-
-    /**
-     * Update the read scratchpad
-     */
-    bool readScratchPad(const uint8_t* deviceAddress, uint8_t* scratchPad);
-
-    /**
-     * sends command for one device to perform a temp conversion by index
-     */
-    bool requestTemperaturesByIndex(uint8_t deviceIndex);
-
-    /**
-     * finds an address at a given index on the bus
-     * returns true if the device was found
-     */
-    bool getAddress(uint8_t* deviceAddress, uint8_t index);
-
-    /**
-     * returns the current resolution of the device, 9-12 or 0, if device not found
-     */
-    uint8_t getResolution(const uint8_t* deviceAddress);
-
-    /**
-     * Fetch temperature for device index
-     */
-    int16_t getTempByIndex(uint8_t deviceIndex);
-
-    /**
-     * Continue to check if the IC has responded with a temperature
-     */
-    void blockTillConversionComplete(uint8_t bitResolution);
 };
 
 #endif
