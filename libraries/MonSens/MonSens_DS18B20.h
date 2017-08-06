@@ -28,8 +28,8 @@
  * a "parasitic" mode over the serial pin, allowing 3 or 2 wire setups.
  */
 
-#ifndef MONSENS_DALLASTEMPERATURE_H
-#define MONSENS_DALLASTEMPERATURE_H
+#ifndef MonSens_DS18B20_H
+#define MonSens_DS18B20_H
 
 #include <MonSens.h>
 #include <OneWire.h>
@@ -37,7 +37,7 @@
 /**
  * Is parasite power mode used
  */
-#define MONSENS_DALLASTEMPERATURE_PARASITE false
+#define MonSens_DS18B20_PARASITE false
 
 // OneWire commands
 #define STARTCONVO      0x44  // Tells device to take a temperature reading and put it on the scratchpad
@@ -54,14 +54,14 @@
 #define COUNT_PER_C     7
 #define SCRATCHPAD_CRC  8
 
-const char MonSens_DallasTemperature_Usage[] PROGMEM = {
+const char MonSens_DS18B20_Usage[] PROGMEM = {
   "C   - temperature in Celsius\r\n"
 };
 
 /**
  * MonSens implementation of the Dallas 18B20 temperature sensor.
  */
-class MonSens_DallasTemperature: public IMonSens_Sensor {
+class MonSens_DS18B20: public IMonSens_Sensor {
   public:
     /**
      * Inject the one-wire bus.

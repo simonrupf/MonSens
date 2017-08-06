@@ -28,32 +28,32 @@
  * a "parasitic" mode over the serial pin, allowing 3 or 2 wire setups.
  */
 
-#include <MonSens_DallasTemperature.h>
+#include <MonSens_DS18B20.h>
 
 /**
  * Inject the one-wire bus.
  */
-void MonSens_DallasTemperature::setWire(OneWire* oneWire) {
+void MonSens_DS18B20::setWire(OneWire* oneWire) {
   wire = oneWire;
 }
 
 /**
  * Set the index of the current sensor (optional), if more then one.
  */
-void MonSens_DallasTemperature::setIndex(uint8_t index) {
+void MonSens_DS18B20::setIndex(uint8_t index) {
   sensorIndex = index;
 }
 
 /**
  * After it is registered in the communicator, the sensor gets initialized.
  */
-void MonSens_DallasTemperature::init() {
+void MonSens_DS18B20::init() {
 }
 
 /**
  * Take a sensor reading, to be returned by the communicator.
  */
-bool MonSens_DallasTemperature::measure(const char* input) {
+bool MonSens_DS18B20::measure(const char* input) {
   if (strstr(input, "C") != NULL) {
     DeviceAddress deviceAddress;
     ScratchPad scratchPad;
@@ -68,7 +68,7 @@ bool MonSens_DallasTemperature::measure(const char* input) {
     }
     wire->reset();
     wire->select(deviceAddress);
-    wire->write(STARTCONVO, MONSENS_DALLASTEMPERATURE_PARASITE);
+    wire->write(STARTCONVO, MonSens_DS18B20_PARASITE);
     delay(94);
 
     wire->reset();
@@ -102,7 +102,7 @@ bool MonSens_DallasTemperature::measure(const char* input) {
 /**
  * If no sensor supports the input value, usage instructions are collected.
  */
-const char* MonSens_DallasTemperature::getUsage() {
-  return MonSens_DallasTemperature_Usage;
+const char* MonSens_DS18B20::getUsage() {
+  return MonSens_DS18B20_Usage;
 }
 

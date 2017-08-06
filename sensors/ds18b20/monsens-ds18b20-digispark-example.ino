@@ -13,11 +13,11 @@
 #include <MonSens_DigiSpark.h>
 MonSens_DigiSpark mcu;
 
-#include <MonSens_DallasTemperature.h>
+#include <MonSens_DS18B20.h>
 
 // Digital pin connected to the serial pin of the Dallas temperature sensor
 OneWire oneWire(2);
-MonSens_DallasTemperature temp;
+MonSens_DS18B20 temp;
 
 /**
  * initialize DigiSpark and sensors

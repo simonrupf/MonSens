@@ -20,13 +20,11 @@ const int port = 30303;
 #include <MonSens_ESP8266.h>
 MonSens_ESP8266 mcu;
 
-#include <MonSens_DallasTemperature.h>
+#include <MonSens_DS18B20.h>
 
 // Digital pin connected to the serial pin of the Dallas temperature sensor
 OneWire oneWire(D4);
-DallasTemperature dallas(&oneWire);
-
-MonSens_DallasTemperature temp;
+MonSens_DS18B20 temp;
 
 /**
  * initialize ESP8266 and sensors
@@ -40,7 +38,7 @@ void setup() {
   mcu.setPort(port);
   mcu.init();
 
-  temp.setDallas(dallas);
+  temp.setWire(&oneWire);
   mcu.addSensor(temp);
 }
  
