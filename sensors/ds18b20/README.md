@@ -47,7 +47,7 @@ The following is an example for connecting Dallas 18B20 to a NodeMCU on `D4`.
 
 ![Dallas 18B20 connected to a NodeMCU](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/ds18b20/ds18b20%20nodemcu.png)
 
-Here below is an example for connecting Dallas 18B20 to a DigiSpark on pin `1`.
+Here below is an example for connecting Dallas 18B20 to a DigiSpark on pin `2`.
 
 ![Dallas 18B20 connected to a DigiSpark](https://raw.githubusercontent.com/elrido/MonSens/master/sensors/ds18b20/ds18b20%20digispark.png)
 
