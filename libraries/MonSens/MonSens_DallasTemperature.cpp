@@ -101,10 +101,25 @@ bool MonSens_DallasTemperature::measure(const char* input) {
     }
     wire->reset();
 
-    reading = (
-      (((int16_t) scratchPad[TEMP_MSB]) << 11) |
-      (((int16_t) scratchPad[TEMP_LSB]) << 3)
-    ) * 100 / 128;
+    int16_t raw = (scratchPad[TEMP_MSB] << 8) | scratchPad[TEMP_LSB];
+    if (deviceAddress[0] == DS18S20MODEL) {
+      raw = raw << 3; // 9 bit resolution default
+      if (scratchPad[COUNT_PER_C] == DS18S20MODEL) {
+        // "count remain" gives full 12 bit resolution
+        raw = (raw & 0xFFF0) + 12 - scratchPad[COUNT_REMAIN];
+      }
+    } else {
+      byte cfg = (scratchPad[CONFIGURATION] & 0x60);
+      // at lower res, the low bits are undefined, so let's zero them
+      if (cfg == 0x00) {
+        raw = raw & ~7;  // 9 bit resolution
+      } else if (cfg == 0x20) {
+        raw = raw & ~3; // 10 bit resolution
+      } else if (cfg == 0x40) {
+        raw = raw & ~1; // 11 bit resolution
+      }
+    }
+    reading = (raw / 16) * 100;
     return true;
   }
   return false;
