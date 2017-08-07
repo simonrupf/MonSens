@@ -68,7 +68,7 @@ bool MonSens_DS18B20::measure(const char* input) {
     }
     wire->reset();
     wire->select(deviceAddress);
-    wire->write(STARTCONVO, MonSens_DS18B20_PARASITE);
+    wire->write(STARTCONVO, MONSENS_DS18B20_PARASITE);
     delay(94);
 
     wire->reset();

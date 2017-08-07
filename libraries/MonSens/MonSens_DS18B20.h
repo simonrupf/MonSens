@@ -28,8 +28,8 @@
  * a "parasitic" mode over the serial pin, allowing 3 or 2 wire setups.
  */
 
-#ifndef MonSens_DS18B20_H
-#define MonSens_DS18B20_H
+#ifndef MONSENS_DS18B20_H
+#define MONSENS_DS18B20_H
 
 #include <MonSens.h>
 #include <OneWire.h>
@@ -37,7 +37,7 @@
 /**
  * Is parasite power mode used
  */
-#define MonSens_DS18B20_PARASITE false
+#define MONSENS_DS18B20_PARASITE false
 
 // OneWire commands
 #define STARTCONVO      0x44  // Tells device to take a temperature reading and put it on the scratchpad
