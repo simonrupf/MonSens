@@ -38,6 +38,10 @@
 #include <MonSens.h>
 #include <ESP8266WiFi.h>
 
+#include <DNSServer.h>        // Local DNS Server used for redirecting all requests to the configuration portal
+#include <ESP8266WebServer.h> // Local WebServer to serve the configuration portal
+#include <WiFiManager.h>      // Local AP with configuration portal for credentials
+
 // amount of ms to wait until client sends something, maximum 65535
 #ifndef MONSENS_ESP8266_TIMEOUT
 #  define MONSENS_ESP8266_TIMEOUT 5000
@@ -82,12 +86,12 @@ class MonSens_ESP8266: public IMonSens_Communicator {
     /**
      * SSID of the WiFi network.
      */
-    const char* wifiSsid;
+    const char* wifiSsid = "";
 
     /**
      * Password of the WiFi network.
      */
-    const char* wifiPassword;
+    const char* wifiPassword = "";
 
     /**
      * TCP port the server listens at.

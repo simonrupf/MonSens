@@ -56,22 +56,28 @@ void MonSens_ESP8266::setPort(const uint16_t port) {
 void MonSens_ESP8266::init() {
   Serial.begin(115200);
   delay(10);
+  Serial.println("");
+  Serial.println("");
 
-  // Connect to WiFi network
-  Serial.println("");
-  Serial.println("");
-  Serial.print("Connecting to ");
-  Serial.println(wifiSsid);
+  if (strlen(wifiSsid) > 0) {
+    // Connect to WiFi network
+    Serial.print("Connecting to ");
+    Serial.println(wifiSsid);
  
-  WiFi.begin(wifiSsid, wifiPassword);
+    WiFi.begin(wifiSsid, wifiPassword);
  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+    }
+    Serial.println("");
+    Serial.println("WiFi connected");
+   } else {
+    // initialize the configuration portal or use a stored config
+    WiFiManager wifiManager;
+    wifiManager.autoConnect("MonSens");
   }
-  Serial.println("");
-  Serial.println("WiFi connected");
- 
+
   // Start the server
   server = new WiFiServer(tcpPort);
   server->begin();

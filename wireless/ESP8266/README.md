@@ -30,6 +30,11 @@ Now select the menu "Tools" > "Board" > "Boards Manager". In the "type" drop dow
 on the top left select "Contributed". Finally select "esp8266" and click the
 "Install" button.
 
+Similarly select the menu "Sketch" > "Include library" > "Manage Libraries...".
+In the "Filter your search" text field type in "WiFiManager" and hit the return
+key to start the search. Finally select the latest "WiFiManager" library and
+click the "Install" button.
+
 After all is downloaded and installed into your Arduino IDE, you can close this
 window and select "NodeMCU 1.0 (ESP-12E Module)" in the menu "Tools" > "Boards".
 
