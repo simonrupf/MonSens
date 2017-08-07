@@ -14,7 +14,7 @@ const int port = 30303;
 
 // (optional) conserve memory by reducing the reserved space for the following
 // variables
-// maximum sensors supported, defaults to 10 (this example only uses 2)
+// maximum sensors supported, defaults to 10 (this example only uses one)
 #define MONSENS_MAX_SENSORS 10
 
 #include <MonSens_ESP8266.h>
