@@ -30,11 +30,6 @@
 #ifndef MONSENS_ESP8266_H
 #define MONSENS_ESP8266_H
 
-// needs to be set before including the ESP libraries
-#ifdef MONSENS_ESP8266_VCC_H
-  ADC_MODE(ADC_VCC);
-#endif
-
 #include <MonSens.h>
 #include <ESP8266WiFi.h>
 

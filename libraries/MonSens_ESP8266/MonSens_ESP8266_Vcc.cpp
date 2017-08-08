@@ -27,6 +27,7 @@
  */
 
 #include <MonSens_ESP8266_Vcc.h>
+ADC_MODE(ADC_VCC);
 
 /**
  * After it is registered in the communicator, the sensor gets initialized.
