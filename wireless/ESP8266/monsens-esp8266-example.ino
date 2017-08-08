@@ -48,11 +48,10 @@ MonSens_ESP8266 mcu;
  * initialize ESP8266 and sensors
  */
 void setup() {
-  Serial.begin(115200);
-  delay(10);
-
+  // if you remove these two lines, you can configure it via WiFiManager instead
   mcu.setSsid(ssid);
   mcu.setPassword(password);
+
   mcu.setPort(port);
   mcu.init();
 

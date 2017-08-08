@@ -62,3 +62,83 @@ configured) of the devices IP:
 $ telnet 1.2.3.4 30303
 ```
 
+WiFi settings
+-------------
+
+This project makes use of the WiFiManager library that assists you configuring
+your ESP8266's connection to your WLAN. To configure do either:
+
+A) set your WiFi SSID and (optional) password using the setter functions:
+
+```c++
+// this is the port that your monitoring system may read the sensors at
+const int port = 30303;
+
+#include <MonSens_ESP8266.h>
+
+MonSens_ESP8266 mcu;
+
+// include and create your sensor object(s) here
+
+void setup() {
+  mcu.setSsid("your WiFi's SSID");
+  // if your WiFi has no password (really?), skip this line
+  mcu.setPassword("your own super secret WiFi password");
+  mcu.setPort(port);
+  mcu.init();
+  // add your sensor(s) here
+}
+ 
+void loop() {
+  mcu.communicate();
+}
+```
+
+B) use the WiFiManager to configure your WiFi settings via a browser:
+
+```c++
+// this is the port that your monitoring system may read the sensors at
+const int port = 30303;
+
+#include <MonSens_ESP8266.h>
+
+MonSens_ESP8266 mcu;
+
+// include and create your sensor object(s) here
+
+void setup() {
+  // note that setSsid is not usedhere
+  mcu.setPort(port);
+  mcu.init();
+  // add your sensor(s) here
+}
+ 
+void loop() {
+  mcu.communicate();
+}
+```
+
+After uploading the sketch without `setSsid()` you can see on the serial console
+of the Arduino IDE if previous settings were detected and are used. If this is
+the first time you upload a sketch to this MCU, WiFiManager won't find a
+configuration and create a temporary new WiFi called "MonSens". Find and connect
+to that WiFi with a Laptop, Tablet or Smartphone and you should be redirected to
+a new browser window that lets you configure your WiFi settings. It should offer
+you a list of nearby WiFi SSIDs and you can choose your own and set the password.
+Once you set these values, they are persisted in the EEPROM of the unit and it
+will reboot, connecting to that WiFi.
+
+If these settings are no longer valid and connecting fails or if you move the
+MCU out of range of your WiFi, it will fall back to the WiFiManager mode that
+lets you reconfigure a new WiFi to use.
+
+To reset any previous stored configuration, upload a sketch that sets an empty
+SSID:
+
+```c++
+  mcu.setSsid("");
+```
+
+This will force the WiFiManager to run every time in AP mode, so you need to
+remove this line again and reupload the sketch once more to restore its proper
+behaviour.
