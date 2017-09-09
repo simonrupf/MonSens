@@ -142,3 +142,15 @@ SSID:
 This will force the WiFiManager to run every time in AP mode, so you need to
 remove this line again and reupload the sketch once more to restore its proper
 behaviour.
+
+Other boards
+------------
+
+If you use other boards then the NodeMCU, make sure that you select the correct
+board type in the the menu "Tools" > "Boards". If the upload fails, you might
+simply have selected the wrong board configuration.
+
+For the **Wemos D1 mini lite**, which is based on the ESP8285 chip, you will also
+need to add a new section to your `~/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/boards.txt`
+file as per this example, to make the `esptool` use the "dio" flash mode:
+https://github.com/esp8266/Arduino/pull/3169/files#diff-fce09ad94aad2ba67472cd9142f00146
