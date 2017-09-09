@@ -48,6 +48,8 @@ void MonSens_DS18B20::setIndex(uint8_t index) {
  * After it is registered in the communicator, the sensor gets initialized.
  */
 void MonSens_DS18B20::init() {
+  // the first measurement after a reset will be off, take it and throw it away
+  measure("C");
 }
 
 /**
