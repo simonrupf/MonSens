@@ -88,7 +88,7 @@ void IMonSens_Communicator::writeProgMem(const char* mem) {
   char c;
   for (i = 0, c = 1; c; ++i) {
     c = pgm_read_byte_near(mem + i);
-    write(c);
+    if (c) write(c);
   }
 }
 
