@@ -48,11 +48,35 @@ Each time you plugin the DigiSpark, a serial interface will appear after about
 to find the name of the device on your system; Usually it will be called
 /dev/ttyACM0.
 
-To make the measurments accessible via telnet (as may be used by Zabbix) you
+The serial device needs to be initialized with the following settings:
+
+```bash
+stty -F $2 min 60 time 1 ignbrk -onlcr  -iexten -echo -echoe -echok -echoctl -echoke
+```
+
+If you have the ModemManager installed, it might interfere with the device and
+set incorrect modes. To avoid this, you can add the following udev rule in to
+a file like `/etc/udev/rules.d/49-digispark.rules`:
+
+```
+ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="087e", ENV{ID_MM_DEVICE_IGNORE}="1"
+```
+
+The vendor and product ID can be discovered using `lsusb`. Usually udev needs to
+be reloaded and the device replugged, before the new rule is applied:
+
+```bash
+sudo udevadm control --reload-rules
+```
+
+Telnet-ish server
+-----------------
+
+To make the measurements accessible via telnet (as may be used by Zabbix) you
 could use netcat for a one-shot or xinetd or socat for a permanent solution.
 
 ```bash
-echo -n C > /dev/ttyACM0; head -n1 /dev/ttyACM0 | nc -l 4000
+exec 3<>/dev/ttyACM0; echo C >&3; head -n1 <&3 | nc -l 4000; exec 3<&-
 ```
 
 For xinetd create a file with the following content in the /etc/xinetd.d folder
@@ -68,18 +92,44 @@ service testservice
     wait            = no
     user            = root
     server          = /bin/sh
-    server_args     = -c "echo -n C > /dev/ttyACM0; head -n1 /dev/ttyACM0"
+    server_args     = -c "exec 3<>/dev/ttyACM0; echo C >&3; head -n1 <&3; exec 3<&-"
 } 
 ```
 
 And the socat variant:
 
 ```bash
-socat tcp-l:4000,reuseaddr,fork system:"echo -n C > /dev/ttyACM0; head -n1 /dev/ttyACM0"
+socat tcp-l:4000,reuseaddr,fork system:"exec 3<>/dev/ttyACM0; echo C >&3; head -n1 <&3; exec 3<&-"
 ```
+
+Instead of using the root user, another user that is in the `dialout` group may
+be used.
 
 In all these example the TCP port 4000 is used, which you may change as you
 like. If you would prefer the measurement in Kelvin instead of Celsius, change
-the "echo -n C" bit to "echo -n K".
+the "echo C" bit to "echo K".
 
+Zabbix agent
+------------
 
+If you have the zabbix agent installed on the system, your DigiSpark-based
+sensor is plugged into, then you can directly expose the reading to Zabbix.
+
+In the `/etc/zabbix/zabbix_agentd.conf` file you just need to add an additional
+UserParameter:
+
+```
+UserParameter=MonSens[*],stty -F $2 min 60 time 1 ignbrk -onlcr  -iexten -echo -echoe -echok -echoctl -echoke; exec 3<>$2; echo $1 >&3; head -n1 <&3; exec 3<&-
+```
+
+Then add the zabbix user to the dialout group and restart the agent.
+
+In your template or host configuration on the server you can now configure an
+item using a key like this one:
+
+```
+MonSens[C,/dev/ttyACM0]
+```
+
+In this example the temperature in `C` (Celsius) was requested, from the device
+attached on /dev/ttyACM0.
