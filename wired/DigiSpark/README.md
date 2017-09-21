@@ -76,7 +76,7 @@ To make the measurements accessible via telnet (as may be used by Zabbix) you
 could use netcat for a one-shot or xinetd or socat for a permanent solution.
 
 ```bash
-exec 3<>/dev/ttyACM0; echo C >&3; head -n1 <&3 | nc -l 4000; exec 3<&-
+$ exec 3<>/dev/ttyACM0; echo C >&3; head -n1 <&3 | netcat -l 4000; exec 3<&-
 ```
 
 For xinetd create a file with the following content in the /etc/xinetd.d folder
@@ -99,7 +99,7 @@ service testservice
 And the socat variant:
 
 ```bash
-socat tcp-l:4000,reuseaddr,fork system:"exec 3<>/dev/ttyACM0; echo C >&3; head -n1 <&3; exec 3<&-"
+$ socat tcp-l:4000,reuseaddr,fork system:"exec 3<>/dev/ttyACM0; echo C >&3; head -n1 <&3; exec 3<&-"
 ```
 
 Instead of using the root user, another user that is in the `dialout` group may

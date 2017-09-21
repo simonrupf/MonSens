@@ -56,10 +56,17 @@ you can compile and upload the sketchbook to the NodeMCU and its server will
 start immediatly after the upload is finished.
 
 To test the measurements you can telnet into the port 30303 (or the one you
-configured) of the devices IP:
+configured) of the devices IP and then type in the command:
 
 ```bash
-$ telnet 1.2.3.4 30303
+$ telnet [FQDN or IP] 30303
+```
+
+You can also use netcat or ncat to take a reading, here with the "C" command:
+
+```bash
+$ echo C | netcat -q -1 [FQDN or IP] 30303
+$ echo C | ncat -C -d 1 [FQDN or IP] 30303 2> /dev/null
 ```
 
 WiFi settings
