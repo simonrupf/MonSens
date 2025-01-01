@@ -44,7 +44,7 @@
 #endif
 
 const char MonSens_ESP32C3_Vcc_Usage[] PROGMEM = {
-  "V   - voltage at the ESP32C3 chip\r\n"
+  "V   - voltage at the analog pin\r\n"
 };
 
 /**

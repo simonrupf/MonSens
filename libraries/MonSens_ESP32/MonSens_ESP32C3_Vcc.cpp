@@ -30,6 +30,66 @@
 
 #include <MonSens_ESP32C3_Vcc.h>
 
+inline void swap(uint32_t& a, uint32_t& b)
+{
+  register uint32_t temp = a;
+  a = b;
+  b = temp;
+}
+
+/**
+ * Quickselect to pick median value
+ *
+ * @author Tony Hoare
+ * @see Algorithm 65: find
+ */
+uint32_t quickselect(uint32_t arr[], int n)
+{
+  int low = 0;
+  int high = n-1;
+  int median = (low + high) / 2;
+  int middle, ll, hh;
+
+  while (true) {
+    if (high <= low) /* One element only */
+      return arr[median];
+
+    if (high == low + 1) {  /* Two elements only */
+      if (arr[low] > arr[high])
+        swap(arr[low], arr[high]);
+      return arr[median];
+    }
+
+    /* Find median of low, middle and high items; swap into position low */
+    middle = (low + high) / 2;
+    if (arr[middle] > arr[high]) swap(arr[middle], arr[high]);
+    if (arr[low]    > arr[high]) swap(arr[low],    arr[high]);
+    if (arr[middle] > arr[low])  swap(arr[middle], arr[low]);
+
+    /* Swap low item (now in position middle) into position (low+1) */
+    swap(arr[middle], arr[low+1]);
+
+    /* Nibble from each end towards middle, swapping items when stuck */
+    ll = low + 1;
+    hh = high;
+    while (true) {
+      do ll++; while (arr[low] > arr[ll]);
+      do hh--; while (arr[hh]  > arr[low]);
+
+      if (hh < ll) break;
+
+      swap(arr[ll], arr[hh]);
+    }
+
+    /* Swap middle item (in position low) back into correct position */
+    swap(arr[low], arr[hh]);
+
+    /* Re-set active partition */
+    if (hh <= median) low = ll;
+    if (hh >= median) high = hh - 1;
+  }
+}
+
 /**
  * After it is registered in the communicator, the sensor gets initialized.
  */
@@ -42,12 +102,12 @@ void MonSens_ESP32C3_Vcc::init() {
  */
 bool MonSens_ESP32C3_Vcc::measure(const char* input) {
   if (strstr(input, "V") != NULL) {
-    uint32_t Vbatt = 0;
-    for(int i = 0; i < MONSENS_ESP32C3_VCC_ATTENUATION; i++) {
-      Vbatt = Vbatt + analogReadMilliVolts(MONSENS_ESP32C3_VCC_PIN);
+    uint32_t Vbatts[MONSENS_ESP32C3_VCC_ATTENUATION];
+    for (int i = 0; i < MONSENS_ESP32C3_VCC_ATTENUATION; i++) {
+      Vbatts[i] = analogReadMilliVolts(MONSENS_ESP32C3_VCC_PIN);
     }
-    // attenuation, ratio 1/2, mV to cV: 2 * Vbatt / Att. / 10 = Vbatt / (Att. * (10 / 2)) = Vbatt / (Att. * 5)
-    reading = Vbatt / (MONSENS_ESP32C3_VCC_ATTENUATION * 5);
+    // ratio 1/2, mV to cV: 2 * Vbatt / 10 = Vbatt / (10 / 2)
+    reading = quickselect(Vbatts, MONSENS_ESP32C3_VCC_ATTENUATION) / 5;
     return true;
   }
   return false;
