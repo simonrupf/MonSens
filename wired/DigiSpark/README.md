@@ -51,7 +51,7 @@ to find the name of the device on your system; Usually it will be called
 The serial device needs to be initialized with the following settings:
 
 ```bash
-stty -F $2 min 60 time 1 ignbrk -onlcr  -iexten -echo -echoe -echok -echoctl -echoke
+$ stty -F $2 min 60 time 1 ignbrk -onlcr  -iexten -echo -echoe -echok -echoctl -echoke
 ```
 
 If you have the ModemManager installed, it might interfere with the device and
@@ -66,7 +66,7 @@ The vendor and product ID can be discovered using `lsusb`. Usually udev needs to
 be reloaded and the device replugged, before the new rule is applied:
 
 ```bash
-sudo udevadm control --reload-rules
+$ sudo udevadm control --reload-rules
 ```
 
 Telnet-ish server
@@ -93,7 +93,7 @@ service testservice
     user            = root
     server          = /bin/sh
     server_args     = -c "exec 3<>/dev/ttyACM0; echo C >&3; head -n1 <&3; exec 3<&-"
-} 
+}
 ```
 
 And the socat variant:

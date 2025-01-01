@@ -95,7 +95,7 @@ void setup() {
   mcu.init();
   // add your sensor(s) here
 }
- 
+
 void loop() {
   mcu.communicate();
 }
@@ -114,12 +114,12 @@ MonSens_ESP8266 mcu;
 // include and create your sensor object(s) here
 
 void setup() {
-  // note that setSsid is not usedhere
+  // note that setSsid is not used here
   mcu.setPort(port);
   mcu.init();
   // add your sensor(s) here
 }
- 
+
 void loop() {
   mcu.communicate();
 }

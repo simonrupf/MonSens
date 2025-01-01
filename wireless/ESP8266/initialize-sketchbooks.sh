@@ -41,6 +41,16 @@ do
     fi
 done
 
+# SSD1306 based 128x64 pixel OLED display library
+if [ -w "$LIBRARY_PATH/SSD1306" ]
+then
+    cd "$LIBRARY_PATH/SSD1306"
+    git pull >/dev/null
+    cd $SELF_PATH
+else
+    git clone https://github.com/squix78/esp8266-oled-ssd1306.git "$LIBRARY_PATH/SSD1306" >/dev/null
+fi
+
 # MonSens libraries
 cp -r "$SELF_PATH/../../libraries/MonSens"* "$LIBRARY_PATH/"
 
