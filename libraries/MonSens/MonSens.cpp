@@ -64,10 +64,11 @@ void IMonSens_Communicator::askSensors(const char* input) {
       }
       writeInt(reading / 100);
       write('.');
+      reading = reading % 100;
       if (reading < 10 && reading > -10) {
         write('0');
       }
-      writeInt(reading % 100);
+      writeInt(reading);
       writeProgMem(MonSens_EOL);
       return;
     }
@@ -102,7 +103,7 @@ void IMonSens_Communicator::writeInt(const int16_t reading) {
   uint16_t digit = 10000;
 
   if (0 == n) {
-    write('0' + 0);
+    write('0');
   } else {
     // reduce size of digit to match the magnitude of given reading
     while (digit > (10 * n)) {
@@ -114,4 +115,3 @@ void IMonSens_Communicator::writeInt(const int16_t reading) {
     }
   }
 }
-
