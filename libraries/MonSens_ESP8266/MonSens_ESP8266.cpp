@@ -63,9 +63,9 @@ void MonSens_ESP8266::init() {
     // Connect to WiFi network
     Serial.print("Connecting to ");
     Serial.println(wifiSsid);
- 
+
     WiFi.begin(wifiSsid, wifiPassword);
- 
+
     while (WiFi.status() != WL_CONNECTED) {
       delay(500);
       Serial.print(".");
@@ -118,7 +118,7 @@ void MonSens_ESP8266::communicate() {
   char request[4];
   client.readStringUntil('\r').toCharArray(request, 4);
   client.flush();
-  Serial.print(request);
+  Serial.println(request);
 
   // ask sensors for output and return it
   askSensors(request);
@@ -132,4 +132,3 @@ void MonSens_ESP8266::write(const char output) {
   Serial.write(output);
   client.print(output);
 }
-

@@ -118,7 +118,7 @@ void MonSens_ESP32::communicate() {
   char request[4];
   client.readStringUntil('\r').toCharArray(request, 4);
   client.flush();
-  Serial.print(request);
+  Serial.println(request);
 
   // ask sensors for output and return it
   askSensors(request);
