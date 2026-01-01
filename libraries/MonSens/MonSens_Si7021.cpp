@@ -56,12 +56,20 @@ void MonSens_Si7021::init() {
 bool MonSens_Si7021::measure(const char* input) {
   if (strstr(input, "C") != NULL) {
     reading = sensor.readTemperature() * 100;
+    if (reading < MONSENS_MAX_TEMPERATURE) {
+      return true;
+    }
   } else if (strstr(input, "RH") != NULL) {
     reading = sensor.readHumidity() * 100;
+    if (reading > MONSENS_MIN_HUMIDITY) {
+      return true;
+    }
   } else {
     return false;
   }
-  return true;
+  // attempt a reset, indicate the measurement failed
+  sensor.reset();
+  return false;
 }
 
 /**
@@ -70,4 +78,3 @@ bool MonSens_Si7021::measure(const char* input) {
 const char* MonSens_Si7021::getUsage() {
   return MonSens_Si7021_Usage;
 }
-

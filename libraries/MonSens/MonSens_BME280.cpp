@@ -60,22 +60,36 @@ bool MonSens_BME280::measure(const char* input) {
     // read twice to avoid cached value
     sensor.readTemperature();
     reading = sensor.readTemperature() * 100;
+    if (reading < MONSENS_MAX_TEMPERATURE) {
+      return true;
+    }
   } else if (strstr(input, "hPa") != NULL) {
     // read twice to avoid cached value
     sensor.readPressure();
     reading = sensor.readPressure();
+    if (reading > MONSENS_MIN_PRESSURE) {
+      return true;
+    }
   } else if (strstr(input, "m") != NULL) {
     // read twice to avoid cached value
     sensor.readAltitude(SEALEVELPRESSURE_HPA);
     reading = sensor.readAltitude(SEALEVELPRESSURE_HPA) * 100;
+    if (reading > MONSENS_MIN_ALTITUDE) {
+      return true;
+    }
   } else if (strstr(input, "RH") != NULL) {
     // read twice to avoid cached value
     sensor.readHumidity();
     reading = sensor.readHumidity() * 100;
+    if (reading > MONSENS_MIN_HUMIDITY) {
+      return true;
+    }
   } else {
     return false;
   }
-  return true;
+  // attempt a reset, indicate the measurement failed
+  sensor.init();
+  return false;
 }
 
 /**
@@ -84,4 +98,3 @@ bool MonSens_BME280::measure(const char* input) {
 const char* MonSens_BME280::getUsage() {
   return MonSens_BME280_Usage;
 }
-
