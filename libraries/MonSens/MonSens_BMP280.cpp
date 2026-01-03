@@ -45,9 +45,15 @@ void MonSens_BMP280::setBmp(Adafruit_BMP280 &bmp) {
  * After it is registered in the communicator, the sensor gets initialized.
  */
 void MonSens_BMP280::init() {
-  if(!sensor.begin()) {
-    Serial.println("Could not find a valid BMP280 sensor, check wiring!");
-    while(1);
+  if(!sensor.begin(BMP280_ADDRESS)) {
+    if(!sensor.begin(BMP280_ADDRESS_ALT)) {
+      Serial.print("Could not find a valid BMP280 sensor at address ");
+      Serial.print(BMP280_ADDRESS);
+      Serial.print(" or ");
+      Serial.print(BMP280_ADDRESS_ALT);
+      Serial.println(", check wiring!");
+      while(true);
+    }
   }
   delay(100); // let the sensor boot up
 }
