@@ -37,10 +37,10 @@
 /**
  * Values to detect measurement failures, to trigger sensor resets.
  */
-constexpr int16_t MONSENS_MAX_TEMPERATURE = 100;
+constexpr int16_t MONSENS_MAX_TEMPERATURE = 10000;
 constexpr int16_t MONSENS_MIN_ALTITUDE    = 0;
-constexpr int16_t MONSENS_MIN_HUMIDITY    = 10;
-constexpr int16_t MONSENS_MIN_PRESSURE    = 50;
+constexpr int16_t MONSENS_MIN_HUMIDITY    = 1000;
+constexpr int16_t MONSENS_MIN_PRESSURE    = 5000;
 
 const char MonSens_Usage[] PROGMEM = {"Usage:\r\n"};
 const char MonSens_EOL[]   PROGMEM = {"\r\n"};
